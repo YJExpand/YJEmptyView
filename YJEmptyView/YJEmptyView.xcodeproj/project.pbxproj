@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,14 @@
 		2C4C39AD25E35F4C0016644A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C4C39AC25E35F4C0016644A /* Assets.xcassets */; };
 		2C4C39B025E35F4C0016644A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C4C39AE25E35F4C0016644A /* LaunchScreen.storyboard */; };
 		2C4C39B325E35F4C0016644A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C4C39B225E35F4C0016644A /* main.m */; };
+		2C4C39C525E361080016644A /* UIScrollView+EmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C4C39C325E361080016644A /* UIScrollView+EmptyView.m */; };
+		2C4C39C625E361080016644A /* YJEmptyBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C4C39C425E361080016644A /* YJEmptyBaseView.m */; };
+		2C4C39CF25E37D180016644A /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C4C39CE25E37D180016644A /* BaseViewController.m */; };
+		2C4C39D625E38F0B0016644A /* UIColor+ext.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C4C39D425E38F0B0016644A /* UIColor+ext.m */; };
+		2C4C39DA25E38FA00016644A /* TableView_NormalVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C4C39D925E38FA00016644A /* TableView_NormalVC.m */; };
+		2C4C39DE25E399BE0016644A /* TableView_headerViewVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C4C39DD25E399BE0016644A /* TableView_headerViewVC.m */; };
+		2C4C39E225E39CB60016644A /* CollectionView_NormalVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C4C39E125E39CB60016644A /* CollectionView_NormalVC.m */; };
+		6CC767177BD6B6E3B68E1B57 /* Pods_YJEmptyView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3B212E591EA88ECF2A3B2B6 /* Pods_YJEmptyView.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +34,24 @@
 		2C4C39AF25E35F4C0016644A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2C4C39B125E35F4C0016644A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2C4C39B225E35F4C0016644A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		2C4C39C025E361080016644A /* YJEmptyViewHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YJEmptyViewHeader.h; sourceTree = "<group>"; };
+		2C4C39C125E361080016644A /* YJEmptyBaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YJEmptyBaseView.h; sourceTree = "<group>"; };
+		2C4C39C225E361080016644A /* UIScrollView+EmptyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+EmptyView.h"; sourceTree = "<group>"; };
+		2C4C39C325E361080016644A /* UIScrollView+EmptyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+EmptyView.m"; sourceTree = "<group>"; };
+		2C4C39C425E361080016644A /* YJEmptyBaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YJEmptyBaseView.m; sourceTree = "<group>"; };
+		2C4C39CD25E37D180016644A /* BaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
+		2C4C39CE25E37D180016644A /* BaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		2C4C39D425E38F0B0016644A /* UIColor+ext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+ext.m"; sourceTree = "<group>"; };
+		2C4C39D525E38F0B0016644A /* UIColor+ext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+ext.h"; sourceTree = "<group>"; };
+		2C4C39D825E38FA00016644A /* TableView_NormalVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TableView_NormalVC.h; sourceTree = "<group>"; };
+		2C4C39D925E38FA00016644A /* TableView_NormalVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TableView_NormalVC.m; sourceTree = "<group>"; };
+		2C4C39DC25E399BE0016644A /* TableView_headerViewVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TableView_headerViewVC.h; sourceTree = "<group>"; };
+		2C4C39DD25E399BE0016644A /* TableView_headerViewVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TableView_headerViewVC.m; sourceTree = "<group>"; };
+		2C4C39E025E39CB60016644A /* CollectionView_NormalVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionView_NormalVC.h; sourceTree = "<group>"; };
+		2C4C39E125E39CB60016644A /* CollectionView_NormalVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CollectionView_NormalVC.m; sourceTree = "<group>"; };
+		5C992212F527192782AEA092 /* Pods-YJEmptyView.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YJEmptyView.release.xcconfig"; path = "Target Support Files/Pods-YJEmptyView/Pods-YJEmptyView.release.xcconfig"; sourceTree = "<group>"; };
+		A0D8431F7FCB8CA5C0C23EF9 /* Pods-YJEmptyView.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YJEmptyView.debug.xcconfig"; path = "Target Support Files/Pods-YJEmptyView/Pods-YJEmptyView.debug.xcconfig"; sourceTree = "<group>"; };
+		B3B212E591EA88ECF2A3B2B6 /* Pods_YJEmptyView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YJEmptyView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6CC767177BD6B6E3B68E1B57 /* Pods_YJEmptyView.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,6 +71,8 @@
 			children = (
 				2C4C399F25E35F4B0016644A /* YJEmptyView */,
 				2C4C399E25E35F4B0016644A /* Products */,
+				9CF9D55452C335934F594A2A /* Pods */,
+				2F911649D2B8B05A2CAEFEC7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,6 +87,8 @@
 		2C4C399F25E35F4B0016644A /* YJEmptyView */ = {
 			isa = PBXGroup;
 			children = (
+				2C4C39BF25E360870016644A /* YJEmptyView */,
+				2C4C39CB25E363260016644A /* Demo */,
 				2C4C39A025E35F4B0016644A /* AppDelegate.h */,
 				2C4C39A125E35F4B0016644A /* AppDelegate.m */,
 				2C4C39A625E35F4B0016644A /* ViewController.h */,
@@ -67,8 +98,54 @@
 				2C4C39AE25E35F4C0016644A /* LaunchScreen.storyboard */,
 				2C4C39B125E35F4C0016644A /* Info.plist */,
 				2C4C39B225E35F4C0016644A /* main.m */,
+				2C4C39D525E38F0B0016644A /* UIColor+ext.h */,
+				2C4C39D425E38F0B0016644A /* UIColor+ext.m */,
 			);
 			path = YJEmptyView;
+			sourceTree = "<group>";
+		};
+		2C4C39BF25E360870016644A /* YJEmptyView */ = {
+			isa = PBXGroup;
+			children = (
+				2C4C39C025E361080016644A /* YJEmptyViewHeader.h */,
+				2C4C39C125E361080016644A /* YJEmptyBaseView.h */,
+				2C4C39C425E361080016644A /* YJEmptyBaseView.m */,
+				2C4C39C225E361080016644A /* UIScrollView+EmptyView.h */,
+				2C4C39C325E361080016644A /* UIScrollView+EmptyView.m */,
+			);
+			path = YJEmptyView;
+			sourceTree = "<group>";
+		};
+		2C4C39CB25E363260016644A /* Demo */ = {
+			isa = PBXGroup;
+			children = (
+				2C4C39CD25E37D180016644A /* BaseViewController.h */,
+				2C4C39CE25E37D180016644A /* BaseViewController.m */,
+				2C4C39D825E38FA00016644A /* TableView_NormalVC.h */,
+				2C4C39D925E38FA00016644A /* TableView_NormalVC.m */,
+				2C4C39DC25E399BE0016644A /* TableView_headerViewVC.h */,
+				2C4C39DD25E399BE0016644A /* TableView_headerViewVC.m */,
+				2C4C39E025E39CB60016644A /* CollectionView_NormalVC.h */,
+				2C4C39E125E39CB60016644A /* CollectionView_NormalVC.m */,
+			);
+			path = Demo;
+			sourceTree = "<group>";
+		};
+		2F911649D2B8B05A2CAEFEC7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B3B212E591EA88ECF2A3B2B6 /* Pods_YJEmptyView.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9CF9D55452C335934F594A2A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A0D8431F7FCB8CA5C0C23EF9 /* Pods-YJEmptyView.debug.xcconfig */,
+				5C992212F527192782AEA092 /* Pods-YJEmptyView.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -78,9 +155,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2C4C39B625E35F4C0016644A /* Build configuration list for PBXNativeTarget "YJEmptyView" */;
 			buildPhases = (
+				10D62D5DE68831BB4948C090 /* [CP] Check Pods Manifest.lock */,
 				2C4C399925E35F4B0016644A /* Sources */,
 				2C4C399A25E35F4B0016644A /* Frameworks */,
 				2C4C399B25E35F4B0016644A /* Resources */,
+				386CA7B7743E6722BCDBDFFA /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -135,13 +214,62 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		10D62D5DE68831BB4948C090 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-YJEmptyView-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		386CA7B7743E6722BCDBDFFA /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-YJEmptyView/Pods-YJEmptyView-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-YJEmptyView/Pods-YJEmptyView-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-YJEmptyView/Pods-YJEmptyView-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		2C4C399925E35F4B0016644A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C4C39C525E361080016644A /* UIScrollView+EmptyView.m in Sources */,
+				2C4C39CF25E37D180016644A /* BaseViewController.m in Sources */,
+				2C4C39E225E39CB60016644A /* CollectionView_NormalVC.m in Sources */,
 				2C4C39A825E35F4B0016644A /* ViewController.m in Sources */,
+				2C4C39DA25E38FA00016644A /* TableView_NormalVC.m in Sources */,
+				2C4C39D625E38F0B0016644A /* UIColor+ext.m in Sources */,
 				2C4C39A225E35F4B0016644A /* AppDelegate.m in Sources */,
+				2C4C39DE25E399BE0016644A /* TableView_headerViewVC.m in Sources */,
+				2C4C39C625E361080016644A /* YJEmptyBaseView.m in Sources */,
 				2C4C39B325E35F4C0016644A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -282,6 +410,7 @@
 		};
 		2C4C39B725E35F4C0016644A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A0D8431F7FCB8CA5C0C23EF9 /* Pods-YJEmptyView.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -300,6 +429,7 @@
 		};
 		2C4C39B825E35F4C0016644A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5C992212F527192782AEA092 /* Pods-YJEmptyView.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
