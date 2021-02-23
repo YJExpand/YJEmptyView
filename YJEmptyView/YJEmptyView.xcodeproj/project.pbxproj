@@ -34,7 +34,7 @@
 		2C4C39AF25E35F4C0016644A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2C4C39B125E35F4C0016644A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2C4C39B225E35F4C0016644A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		2C4C39C025E361080016644A /* YJEmptyViewHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YJEmptyViewHeader.h; sourceTree = "<group>"; };
+		2C4C39C025E361080016644A /* YJEmptyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YJEmptyView.h; sourceTree = "<group>"; };
 		2C4C39C125E361080016644A /* YJEmptyBaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YJEmptyBaseView.h; sourceTree = "<group>"; };
 		2C4C39C225E361080016644A /* UIScrollView+EmptyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+EmptyView.h"; sourceTree = "<group>"; };
 		2C4C39C325E361080016644A /* UIScrollView+EmptyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+EmptyView.m"; sourceTree = "<group>"; };
@@ -107,7 +107,7 @@
 		2C4C39BF25E360870016644A /* YJEmptyView */ = {
 			isa = PBXGroup;
 			children = (
-				2C4C39C025E361080016644A /* YJEmptyViewHeader.h */,
+				2C4C39C025E361080016644A /* YJEmptyView.h */,
 				2C4C39C125E361080016644A /* YJEmptyBaseView.h */,
 				2C4C39C425E361080016644A /* YJEmptyBaseView.m */,
 				2C4C39C225E361080016644A /* UIScrollView+EmptyView.h */,
@@ -421,6 +421,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 0.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = YJExpand.YJEmptyView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -440,6 +441,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 0.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = YJExpand.YJEmptyView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;

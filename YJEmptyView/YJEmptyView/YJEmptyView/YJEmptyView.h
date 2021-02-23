@@ -1,13 +1,13 @@
 //
-//  yjEmptyView.h
-//  yjEmptyView
+//  YJEmptyView.h
+//  YJEmptyView
 //
 //  Created by YJExpand on 2021/1/7.
 //
 
-#ifndef yjEmptyView_h
-#define yjEmptyView_h
+#ifndef YJEmptyView_h
+#define YJEmptyView_h
 
 #import "UIScrollView+EmptyView.h"
 #import "YJEmptyBaseView.h"
-#endif /* yjEmptyView_h */
+#endif /* YJEmptyView_h */
