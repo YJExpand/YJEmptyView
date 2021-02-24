@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |spec|
   spec.name         = "YJEmptyView"
-  spec.version      = "0.0.1"
+  spec.version      = "0.0.2"
   spec.summary      = "A beautiful framework for displaying emptyView"
   spec.homepage     = "https://github.com/YJExpand/YJEmptyView.git"
   spec.license      = "MIT"
