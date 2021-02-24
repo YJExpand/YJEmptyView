@@ -103,6 +103,8 @@
         [self handleSetEmptyViewWithView:[self.yj_emptyViewDataSource emptyViewFromSuperView:self]];
     }
     
+    if (!self.yj_emptyView) return;
+    
     [self handleEmptyContaint];
     
     BOOL total = [self totalDataCount];
@@ -148,14 +150,14 @@
         edge = [self.yj_emptyViewDataSource emptyViewEdgeInset:self.yj_emptyView superView:self];
     }
     CGFloat emptyTop = kEmptyViewTop;
-    if (objc_getAssociatedObject(self, _cmd)) {  // 说明设过值
+    if (objc_getAssociatedObject(self, @selector(emptyViewTop))) {  // 说明设过值
         emptyTop = self.emptyViewTop;
     }
     NSLayoutConstraint *top;
     if ([self isKindOfClass:[UITableView class]]) {
         UITableView *tableView = (UITableView *)self;
         if (tableView.tableHeaderView) {
-            top = [NSLayoutConstraint constraintWithItem:self.yj_emptyView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:tableView.tableHeaderView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:edge.top];
+            top = [NSLayoutConstraint constraintWithItem:self.yj_emptyView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:tableView.tableHeaderView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:emptyTop+edge.top];
         }else{
             top = [NSLayoutConstraint constraintWithItem:self.yj_emptyView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:emptyTop+edge.top];
         }

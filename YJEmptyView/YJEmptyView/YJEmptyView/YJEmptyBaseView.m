@@ -16,8 +16,10 @@
 @property (nonatomic,strong) UILabel *titleLB;
 @property (nonatomic,strong) UIButton *button;
 @property (nonatomic,strong) UIImage *image;
-@property (nonatomic,copy) void(^buttonClickBlock)(UIButton *btn);
+@property (nonatomic,copy) emptyBtnClickBlock buttonClickBlock;
 @property (nonatomic,strong) NSMutableArray<NSLayoutConstraint *> *btnConstraitSizeArr;
+@property (nonatomic,strong) NSMutableArray<NSLayoutConstraint *> *constraitArr; // 缓存约束
+@property (nonatomic,assign) CGFloat margin;
 @end
 
 @implementation YJEmptyBaseView
@@ -27,12 +29,12 @@
     return view;
 }
 
-+ (instancetype)yj_createWithImageName:(NSString *)imageName titleText:(NSString *)titleText btnNormalText:(NSString *)btnNormalText buttonClickBlock:(void (^)(UIButton * _Nonnull))block{
++ (instancetype)yj_createWithImageName:(NSString *)imageName titleText:(NSString *)titleText btnNormalText:(NSString *)btnNormalText buttonClickBlock:(emptyBtnClickBlock)block{
     YJEmptyBaseView *view = [[self alloc] initWithImage:[UIImage imageNamed:imageName] titleText:titleText btnNormalText:btnNormalText buttonClickBlock:block];
     return view;
 }
 
-- (instancetype)initWithImage:(UIImage *)image titleText:(NSString *)titleText btnNormalText:(NSString *)btnNormalText buttonClickBlock:(void (^)(UIButton * _Nonnull))block{
+- (instancetype)initWithImage:(UIImage *)image titleText:(NSString *)titleText btnNormalText:(NSString *)btnNormalText buttonClickBlock:(emptyBtnClickBlock)block{
     self = [self initWithImage:image titleText:titleText];
     if (self) {
         self.buttonClickBlock = block;
@@ -46,6 +48,7 @@
 {
     self = [super init];
     if (self) {
+        self.margin = kDefineMargin;
         self.translatesAutoresizingMaskIntoConstraints = NO;
         self.image = image;
         self.titleLB.text = titleText;
@@ -62,26 +65,33 @@
 
 - (void)yj_setupSubviews{
     if (!self.yjSuperView) return;
+    if (self.constraitArr.count) {
+        [self removeConstraints:self.constraitArr];
+    }
+    [self.constraitArr removeAllObjects];
     
     NSLayoutConstraint *imageViewCenterX = [NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0];
     NSLayoutConstraint *imageViewTop = [NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
     [self addConstraints:@[imageViewCenterX,imageViewTop]];
     
-    NSLayoutConstraint *titleLeft = [NSLayoutConstraint constraintWithItem:self.titleLB attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeading multiplier:1.0 constant:kDefineMargin];
-    NSLayoutConstraint *titleRight = [NSLayoutConstraint constraintWithItem:self.titleLB attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-kDefineMargin];
-    NSLayoutConstraint *titleTop = [NSLayoutConstraint constraintWithItem:self.titleLB attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.imageView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:kDefineMargin];
-    NSLayoutConstraint *titleBottom = [NSLayoutConstraint constraintWithItem:self.titleLB attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-kDefineMargin];
-    [self addConstraints:@[titleTop,titleLeft,titleRight,titleBottom]];
+    NSLayoutConstraint *titleLeft = [NSLayoutConstraint constraintWithItem:self.titleLB attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeading multiplier:1.0 constant:self.margin];
+    NSLayoutConstraint *titleRight = [NSLayoutConstraint constraintWithItem:self.titleLB attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-self.margin];
+    NSLayoutConstraint *titleTop = [NSLayoutConstraint constraintWithItem:self.titleLB attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.imageView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:self.margin];
+    NSLayoutConstraint *titleBottom = [NSLayoutConstraint constraintWithItem:self.titleLB attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
+    [self.constraitArr addObjectsFromArray:@[titleTop,titleLeft,titleRight,titleBottom]];
     
     if (_button) { // 有button,额外处理
-        [self removeConstraint:titleBottom];
+        [self.constraitArr removeObject:titleBottom];
         NSLayoutConstraint *buttonCenterX = [NSLayoutConstraint constraintWithItem:self.button attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0];
-        NSLayoutConstraint *buttonTop = [NSLayoutConstraint constraintWithItem:self.button attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.titleLB attribute:NSLayoutAttributeBottom multiplier:1.0 constant:kDefineMargin];
-        NSLayoutConstraint *buttonBottom = [NSLayoutConstraint constraintWithItem:self.button attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-kDefineMargin];
+        NSLayoutConstraint *buttonTop = [NSLayoutConstraint constraintWithItem:self.button attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.titleLB attribute:NSLayoutAttributeBottom multiplier:1.0 constant:self.margin];
+        NSLayoutConstraint *buttonBottom = [NSLayoutConstraint constraintWithItem:self.button attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
         buttonBottom.priority = UILayoutPriorityDefaultHigh;
-        [self addConstraints:@[buttonCenterX,buttonTop,buttonBottom]];
-        [self handleButtonSize:kDefineButtonSize];
+        [self.constraitArr addObjectsFromArray:@[buttonCenterX,buttonTop,buttonBottom]];
+        if (!self.btnConstraitSizeArr.count) {
+            [self handleButtonSize:kDefineButtonSize];
+        }
     }
+    [self addConstraints:self.constraitArr];
 }
 
 #pragma mark- action
@@ -102,6 +112,10 @@
     [self.button addConstraints:self.btnConstraitSizeArr];
 }
 
+- (void)handleDefineMargin:(CGFloat)margin{
+    self.margin = margin;
+    [self yj_setupSubviews];
+}
 #pragma mark- <YJEmptyViewDelegate>
 - (void)updateEmptyViewShowStatus:(BOOL)status superView:(UIScrollView *)superView{
     self.yjSuperView = superView;
@@ -120,6 +134,7 @@
         _titleLB = [[UILabel alloc] init];
         _titleLB.numberOfLines = 0;
         _titleLB.textColor = [UIColor grayColor];
+        _titleLB.font = [UIFont systemFontOfSize:18.f];
         _titleLB.textAlignment = NSTextAlignmentCenter;
         _titleLB.translatesAutoresizingMaskIntoConstraints = NO;
     }
@@ -141,5 +156,11 @@
         _btnConstraitSizeArr = [NSMutableArray array];
     }
     return _btnConstraitSizeArr;
+}
+- (NSMutableArray<NSLayoutConstraint *> *)constraitArr{
+    if (!_constraitArr) {
+        _constraitArr = [NSMutableArray array];
+    }
+    return _constraitArr;
 }
 @end

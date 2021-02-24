@@ -13,6 +13,7 @@
 #import <UIKit/UIKit.h>
 #import "UIScrollView+EmptyView.h"
 NS_ASSUME_NONNULL_BEGIN
+typedef void(^emptyBtnClickBlock)(UIButton *btn);
 
 @interface YJEmptyBaseView : UIView<YJEmptyViewDelegate>
 
@@ -25,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)yj_createWithImageName:(NSString *)imageName
                              titleText:(NSString *)titleText
                          btnNormalText:(NSString *)btnNormalText
-                      buttonClickBlock:(void(^)(UIButton *btn))block;
+                      buttonClickBlock:(emptyBtnClickBlock)block;
 
 @property (nonatomic,readonly,weak) UIScrollView *yjSuperView;
 @property (nonatomic,readonly,strong) UIImageView *imageView;
@@ -33,7 +34,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,readonly,strong) UIButton *button;
 
 #pragma mark- 外部微调参数
+/// 重新设置button大小-----默认CGSizeMake(120, 35)
 - (void)handleButtonSize:(CGSize)size;
+/// 重新设置间距-----默认10.f
+- (void)handleDefineMargin:(CGFloat)margin;
 @end
 
 NS_ASSUME_NONNULL_END
