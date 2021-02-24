@@ -19,7 +19,11 @@
 @implementation UIScrollView (EmptyView)
 + (void)exchangeInstanceMethod1:(SEL)method1 method2:(SEL)method2
 {
-    method_exchangeImplementations(class_getInstanceMethod(self, method1), class_getInstanceMethod(self, method2));
+    Method originalMethod = class_getInstanceMethod(self, method1);
+    Method swizzledMethod = class_getInstanceMethod(self, method2);
+    IMP previousIMP = class_replaceMethod(self, method1, method_getImplementation(swizzledMethod),
+                                                     method_getTypeEncoding(swizzledMethod));
+    class_replaceMethod(self, method2, previousIMP,method_getTypeEncoding(originalMethod));
 }
 
 - (UIView<YJEmptyViewDelegate> *)yj_emptyView{
