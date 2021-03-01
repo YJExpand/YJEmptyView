@@ -21,9 +21,12 @@
 {
     Method originalMethod = class_getInstanceMethod(self, method1);
     Method swizzledMethod = class_getInstanceMethod(self, method2);
-    IMP previousIMP = class_replaceMethod(self, method1, method_getImplementation(swizzledMethod),
-                                                     method_getTypeEncoding(swizzledMethod));
-    class_replaceMethod(self, method2, previousIMP,method_getTypeEncoding(originalMethod));
+    BOOL addSuccess = class_addMethod(self, method1, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod));
+    if (addSuccess) {
+        class_replaceMethod(self, method2, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod));
+    }else{
+        method_exchangeImplementations(originalMethod, swizzledMethod);
+    }
 }
 
 - (UIView<YJEmptyViewDelegate> *)yj_emptyView{
