@@ -7,7 +7,6 @@
 
 #import "UIScrollView+EmptyView.h"
 #import <objc/runtime.h>
-#import <Masonry/Masonry.h>
 
 // 默认top约束
 #define kEmptyViewTop 130.f
