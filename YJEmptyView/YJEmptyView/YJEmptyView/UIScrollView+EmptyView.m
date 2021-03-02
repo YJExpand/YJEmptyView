@@ -7,13 +7,18 @@
 
 #import "UIScrollView+EmptyView.h"
 #import <objc/runtime.h>
+#import <Masonry/Masonry.h>
 
+// 默认top约束
 #define kEmptyViewTop 130.f
+// 默认占位图的高度大于等于50.f
+#define kDefaultEmptyViewHeigth 50.f
 
 @interface UIScrollView()
 @property (nonatomic,strong) NSMutableArray<NSLayoutConstraint *> *emptyConstraintArr;
 @property (nonatomic,strong) NSMutableArray<NSLayoutConstraint *> *emptyConstraintSizeArr;
 @property (nonatomic,assign) CGFloat emptyViewTop;
+@property (nonatomic,assign) CGFloat emptyViewDefaultHeigth;
 @end
 
 @implementation UIScrollView (EmptyView)
@@ -37,7 +42,7 @@
         self.autoShowEmptyView = YES;
     }
     [self handleSetEmptyViewWithView:yj_emptyView];
-    if ([self isKindOfClass:[UITableView class]] || [self isKindOfClass:[UITableView class]]) {
+    if ([self isKindOfClass:[UITableView class]] || [self isKindOfClass:[UICollectionView class]]) {
         [self yj_showEmptyView];
     }
 }
@@ -70,14 +75,29 @@
     objc_setAssociatedObject(self, @selector(emptyConstraintSizeArr), emptyConstraintSizeArr, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 - (CGFloat)emptyViewTop{
-    return [objc_getAssociatedObject(self, _cmd) floatValue];
+    CGFloat emptyTop = kEmptyViewTop;
+    if (objc_getAssociatedObject(self, _cmd)) {  // 说明设过值
+        emptyTop = [objc_getAssociatedObject(self, _cmd) floatValue];
+    }
+    return emptyTop;
 }
 - (void)setEmptyViewTop:(CGFloat)emptyViewTop{
     objc_setAssociatedObject(self, @selector(emptyViewTop), @(emptyViewTop), OBJC_ASSOCIATION_ASSIGN);
 }
 
+- (CGFloat)emptyViewDefaultHeigth{
+    CGFloat emptyHeigth = kDefaultEmptyViewHeigth;
+    if (objc_getAssociatedObject(self, _cmd)) {  // 说明设过值
+        emptyHeigth = [objc_getAssociatedObject(self, _cmd) floatValue];
+    }
+    return emptyHeigth;
+}
+- (void)setEmptyViewDefaultHeigth:(CGFloat)emptyViewDefaultHeigth{
+    objc_setAssociatedObject(self, @selector(emptyViewDefaultHeigth), @(emptyViewDefaultHeigth), OBJC_ASSOCIATION_ASSIGN);
+}
+
 #pragma mark- public
-- (void)yj_emptyViewReloadData{
+- (void)yj_emptyViewRefresh{
     [self yj_showEmptyView];
 }
 
@@ -93,6 +113,11 @@
 
 - (void)yj_updateEmptyViewTop:(CGFloat)top{
     self.emptyViewTop = top;
+    [self handleEmptyContaint];
+}
+
+- (void)yj_updateEmptyViewDefaultHeigth:(CGFloat)heigth{
+    self.emptyViewDefaultHeigth = heigth;
     [self handleEmptyContaint];
 }
 
@@ -117,7 +142,10 @@
     BOOL total = [self totalDataCount];
     self.yj_emptyView.hidden = total;
     [self bringSubviewToFront:self.yj_emptyView];
-    [self.yj_emptyView updateEmptyViewShowStatus:!total superView:self];
+    if ([self.yj_emptyView respondsToSelector:@selector(updateEmptyViewShowStatus:superView:)]) {
+        [self.yj_emptyView updateEmptyViewShowStatus:!total superView:self];
+    }
+    
     
 }
 - (NSInteger)totalDataCount{
@@ -140,6 +168,7 @@
     NSAssert((view && [view conformsToProtocol:@protocol(YJEmptyViewDelegate)]), @"该view未遵循<YJEmptyViewDelegate>");
     [self removeEmptyView];
     if (view != self.yj_emptyView) {
+        view.translatesAutoresizingMaskIntoConstraints = NO;
         objc_setAssociatedObject(self, @selector(yj_emptyView), view, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         [self addSubview:view];
         view.hidden = YES;
@@ -147,47 +176,56 @@
 }
 - (void)handleEmptyContaint{
     if (!self.yj_emptyView) return;
-    if (self.emptyConstraintArr.count) {
-        [self removeConstraints:self.emptyConstraintArr];
-    }
-    self.emptyConstraintArr = [NSMutableArray array];
+    [self resetEmptyContaint]; // 格式化约束
     
     UIEdgeInsets edge = UIEdgeInsetsMake(0, 0, 0, 0);
     if ([self.yj_emptyViewDataSource respondsToSelector:@selector(emptyViewEdgeInset:superView:)]) {
         edge = [self.yj_emptyViewDataSource emptyViewEdgeInset:self.yj_emptyView superView:self];
     }
-    CGFloat emptyTop = kEmptyViewTop;
-    if (objc_getAssociatedObject(self, @selector(emptyViewTop))) {  // 说明设过值
-        emptyTop = self.emptyViewTop;
-    }
     NSLayoutConstraint *top;
     if ([self isKindOfClass:[UITableView class]]) {
         UITableView *tableView = (UITableView *)self;
         if (tableView.tableHeaderView) {
-            top = [NSLayoutConstraint constraintWithItem:self.yj_emptyView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:tableView.tableHeaderView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:emptyTop+edge.top];
+            top = [NSLayoutConstraint constraintWithItem:self.yj_emptyView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:tableView.tableHeaderView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:self.emptyViewTop+edge.top];
         }else{
-            top = [NSLayoutConstraint constraintWithItem:self.yj_emptyView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:emptyTop+edge.top];
+            top = [NSLayoutConstraint constraintWithItem:self.yj_emptyView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:self.emptyViewTop+edge.top];
         }
     }else{
-        top = [NSLayoutConstraint constraintWithItem:self.yj_emptyView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:emptyTop+edge.top];
+        top = [NSLayoutConstraint constraintWithItem:self.yj_emptyView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:self.emptyViewTop+edge.top];
     }
     NSLayoutConstraint *centerX = [NSLayoutConstraint constraintWithItem:self.yj_emptyView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0];
     NSLayoutConstraint *width = [NSLayoutConstraint constraintWithItem:self.yj_emptyView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeWidth multiplier:1 constant:-(fabs(edge.left)+fabs(edge.right))];
     [self.emptyConstraintArr addObjectsFromArray:@[top,centerX,width]];
-    
+
+    NSLayoutConstraint *newWidth;
+    NSLayoutConstraint *newHeight;
     if ([self.yj_emptyViewDataSource respondsToSelector:@selector(emptyViewSize:superView:)]) {
-        CGSize viewSize = [self.yj_emptyViewDataSource emptyViewSize:self.yj_emptyView superView:self];
         [self.emptyConstraintArr removeObject:width];
-        if (self.emptyConstraintSizeArr.count) {
-            [self.yj_emptyView removeConstraints:self.emptyConstraintArr];
-        }
-        self.emptyConstraintSizeArr = [NSMutableArray array];
-        NSLayoutConstraint *newWidth = [NSLayoutConstraint constraintWithItem:self.yj_emptyView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:viewSize.width];
-        NSLayoutConstraint *newHeight = [NSLayoutConstraint constraintWithItem:self.yj_emptyView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:viewSize.height];
+        CGSize viewSize = [self.yj_emptyViewDataSource emptyViewSize:self.yj_emptyView superView:self];
+        newWidth = [NSLayoutConstraint constraintWithItem:self.yj_emptyView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:viewSize.width];
+        newHeight = [NSLayoutConstraint constraintWithItem:self.yj_emptyView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:viewSize.height];
         [self.emptyConstraintSizeArr addObjectsFromArray:@[newWidth,newHeight]];
-        [self.yj_emptyView addConstraints:self.emptyConstraintSizeArr];
+    }else{
+        newHeight = [NSLayoutConstraint constraintWithItem:self.yj_emptyView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:self.emptyViewDefaultHeigth];
+        [self.emptyConstraintSizeArr addObjectsFromArray:@[newHeight]];
     }
+    [self.yj_emptyView addConstraints:self.emptyConstraintSizeArr];
     [self addConstraints:self.emptyConstraintArr];
+
+}
+
+- (void)resetEmptyContaint{
+    if (self.emptyConstraintArr.count){
+        [self removeConstraints:self.emptyConstraintArr];
+        [self.emptyConstraintArr removeAllObjects];
+    }
+    self.emptyConstraintArr = [NSMutableArray array];
+    
+    if (self.emptyConstraintSizeArr.count) {
+        [self.yj_emptyView removeConstraints:self.emptyConstraintSizeArr];
+        [self.emptyConstraintSizeArr removeAllObjects];
+    }
+    self.emptyConstraintSizeArr = [NSMutableArray array];
 }
 @end
 

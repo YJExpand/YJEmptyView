@@ -49,7 +49,6 @@
     self = [super init];
     if (self) {
         self.margin = kDefineMargin;
-        self.translatesAutoresizingMaskIntoConstraints = NO;
         self.image = image;
         self.titleLB.text = titleText;
         [self addSubview:self.imageView];
@@ -65,10 +64,7 @@
 
 - (void)yj_setupSubviews{
     if (!self.yjSuperView) return;
-    if (self.constraitArr.count) {
-        [self removeConstraints:self.constraitArr];
-    }
-    [self.constraitArr removeAllObjects];
+    [self resetSubViewLayout];
     
     NSLayoutConstraint *imageViewCenterX = [NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0];
     NSLayoutConstraint *imageViewTop = [NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
@@ -94,6 +90,12 @@
     [self addConstraints:self.constraitArr];
 }
 
+- (void)resetSubViewLayout{
+    if (self.constraitArr.count) {
+        [self removeConstraints:self.constraitArr];
+    }
+    [self.constraitArr removeAllObjects];
+}
 #pragma mark- action
 - (void)buttonClick:(UIButton *)btn{
     if (self.buttonClickBlock) {
@@ -102,7 +104,7 @@
 }
 #pragma mark- 外部微调参数
 - (void)handleButtonSize:(CGSize)size{
-    if (self.btnConstraitSizeArr) {
+    if (self.btnConstraitSizeArr.count) {
         [self.button removeConstraints:self.btnConstraitSizeArr];
         [self.btnConstraitSizeArr removeAllObjects];
     }

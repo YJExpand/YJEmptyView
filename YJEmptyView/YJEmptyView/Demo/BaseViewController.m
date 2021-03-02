@@ -8,7 +8,7 @@
 #import "BaseViewController.h"
 
 @interface BaseViewController ()
-
+@property (nonatomic,assign) BOOL isHaveData;
 @end
 
 @implementation BaseViewController
@@ -17,6 +17,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
+    UIBarButtonItem *referBtn = [[UIBarButtonItem alloc] initWithTitle:@"刷新" style:UIBarButtonItemStylePlain target:self action:@selector(loadData)];
+    self.navigationItem.rightBarButtonItem = referBtn;
 }
 
 - (void)yj_initTableView{
@@ -33,6 +35,9 @@
     }];
 }
 
+- (void)loadData{
+    
+}
 - (void)async_loadDataWithBlock:(void (^)(void))block{
     NSLog(@"开始加载数据------");
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -42,8 +47,8 @@
 }
 - (void)randomDataSource{
     [self.dataSources removeAllObjects];
-    int x = arc4random() % 200;
-    if (x % 2) {
+    self.isHaveData = !self.isHaveData;
+    if (self.isHaveData) {
         [self.dataSources addObjectsFromArray:@[@"1",@"2",@"3"]];
     }
 }
@@ -92,6 +97,8 @@
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
         _collectionView.backgroundColor = [UIColor whiteColor];
         [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:NSStringFromClass([UICollectionViewCell class])];
+        _collectionView.delegate = self;
+        _collectionView.dataSource = self;
     }
     return _collectionView;
 }

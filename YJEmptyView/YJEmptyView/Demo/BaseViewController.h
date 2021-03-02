@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)yj_initCollectionView;
 - (void)async_loadDataWithBlock:(void(^)(void))block;
 - (void)randomDataSource; // 随机赋值dataSources
+- (void)loadData;
 @end
 
 

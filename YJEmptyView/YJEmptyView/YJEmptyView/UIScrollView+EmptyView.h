@@ -11,19 +11,23 @@
  ❗️❗️❗️：默认属性
  tableView :
  if (tableView.tableHeaderView){
-    emptyView 默认Top是kEmptyViewTop（130.f）
+    emptyView 默认Top是kEmptyViewTop
  }else{
-    emptyView 默认Top是贴着tableHeaderView.bottom
+    emptyView 默认Top是贴着tableHeaderView.bottom + Top是kEmptyViewTop
  }
  
  collectionView:
-    emptyView 默认Top是kEmptyViewTop（130.f）
+    emptyView 默认Top是kEmptyViewTop
  
  ❗️❗️❗️：使用说明
  tableView.yj_emptyView = [YJEmptyBaseView yj_createWithImageName:kEmptyViewImageName titleText:@"testet"];
  或
  tableView.yj_emptyViewDataSource = self;(需要实现代理emptyViewFromSuperView:方法，返回一个遵循<YJEmptyViewDelegate>的View,可自定义也可使用【YJEmptyBaseView】)
- 注意：如果自定义的View不自动撑开的话，必须要实现- (CGSize)emptyViewSize:(UIView<YJEmptyViewDelegate> *)emptyView superView:(UIScrollView *)superView;
+ 
+ 注意：
+ 如果自定义的View不自动撑开的话，必须要实现
+    - (CGSize)emptyViewSize:(UIView<YJEmptyViewDelegate> *)emptyView superView:(UIScrollView *)superView;
+ 否则高度默认>= kDefaultEmptyViewHeigth
  
  若要实现加载数据时自动显示emptyView -------需要实现yj_emptyLoadDataBegin和yj_emptyLoadDataEnd
  
@@ -61,20 +65,29 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface UIScrollView (EmptyView)
+
+/// 空白页占位View
 @property (nonatomic,strong) UIView<YJEmptyViewDelegate> *yj_emptyView;
 /// 是否自动显示空白页  define Yes
 @property (nonatomic,assign) BOOL autoShowEmptyView;
+
+/// 空白占位View来源
 @property (nonatomic,weak) id<YJEmptyViewDataSource> yj_emptyViewDataSource;
 
-- (void)yj_emptyViewReloadData;
+/// 刷新emptyView显示
+- (void)yj_emptyViewRefresh;
 
 /// 开始加载数据 （必须和yj_emptyLoadDataEnd配套使用）
 - (void)yj_emptyLoadDataBegin;
 /// 结束加载数据 （必须和yj_emptyLoadDataBegin配套使用）
 - (void)yj_emptyLoadDataEnd;
-/// 更新top，默认130.f
+
+/// 更新top，默认kEmptyViewTop
 - (void)yj_updateEmptyViewTop:(CGFloat)top;
 
+/// 更新EmptyView默认高度
+/// @param heigth -
+- (void)yj_updateEmptyViewDefaultHeigth:(CGFloat)heigth;
 @end
 
 NS_ASSUME_NONNULL_END
