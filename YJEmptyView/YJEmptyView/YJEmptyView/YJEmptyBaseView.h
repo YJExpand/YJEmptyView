@@ -24,29 +24,41 @@ typedef void(^emptyBtnClickBlock)(UIButton *btn);
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithFrame:(CGRect)frame NS_UNAVAILABLE;
 
+/// 创建只有图片和文本的占位view
+/// @param imageName 图片名字
+/// @param titleText 文本
 + (instancetype)yj_createWithImageName:(NSString *)imageName
                              titleText:(NSString *)titleText;
 
+/// 创建有图片、文本、点击按钮的占位view
+/// @param imageName 图片名字
+/// @param titleText 文本
+/// @param btnNormalText 按钮文字
+/// @param block 点击回调
 + (instancetype)yj_createWithImageName:(NSString *)imageName
                              titleText:(NSString *)titleText
                          btnNormalText:(NSString *)btnNormalText
                       buttonClickBlock:(emptyBtnClickBlock)block;
 
+/// 父View
 @property (nonatomic,readonly,weak) UIScrollView *yjSuperView;
+/// 图片
 @property (nonatomic,readonly,strong) UIImageView *imageView;
+/// 文本描述
 @property (nonatomic,readonly,strong) UILabel *titleLB;
+/// 点击按钮
 @property (nonatomic,readonly,strong) UIButton *button;
 
 /// 设置布局
 - (void)yj_setupSubviews;
 /// 格式化布局（子类继承该view时，可实现该方法，重新布局，自定义约束）
-- (void)resetSubViewLayout;
+- (void)yj_resetSubViewLayout;
 
 #pragma mark- 外部微调参数
 /// 重新设置button大小-----默认CGSizeMake(120, 35)
-- (void)handleButtonSize:(CGSize)size;
+- (void)yj_handleButtonSize:(CGSize)size;
 /// 重新设置间距-----默认10.f
-- (void)handleDefineMargin:(CGFloat)margin;
+- (void)yj_handleDefineMargin:(CGFloat)margin;
 @end
 
 NS_ASSUME_NONNULL_END

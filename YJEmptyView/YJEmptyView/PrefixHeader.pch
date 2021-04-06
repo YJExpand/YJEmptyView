@@ -1,0 +1,15 @@
+//
+//  PrefixHeader.pch
+//  YJEmptyView
+//
+//  Created by YJExpand on 2021/4/6.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+#import <Masonry/Masonry.h>
+#import "UIColor+ext.h"
+#import "YJEmptyView.h"
+
+#endif /* PrefixHeader_pch */

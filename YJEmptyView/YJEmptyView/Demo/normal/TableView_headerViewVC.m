@@ -25,10 +25,10 @@
 }
 
 - (void)loadData{
-    [self.tableView yj_emptyLoadDataBegin];
+    [self.tableView yj_beginLoading];
     kWeakSelf;
     [self async_loadDataWithBlock:^{
-        [weakSelf.tableView yj_emptyLoadDataEnd];
+        [weakSelf.tableView yj_endLoading];
         [weakSelf randomDataSource];
         [weakSelf.tableView reloadData];
     }];

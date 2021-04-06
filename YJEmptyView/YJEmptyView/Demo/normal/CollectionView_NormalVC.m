@@ -23,10 +23,10 @@
 }
 
 - (void)loadData{
-    [self.collectionView yj_emptyLoadDataBegin];
+    [self.collectionView yj_beginLoading];
     kWeakSelf;
     [self async_loadDataWithBlock:^{
-        [weakSelf.collectionView yj_emptyLoadDataEnd];
+        [weakSelf.collectionView yj_endLoading];
         [weakSelf randomDataSource];
         [weakSelf.collectionView reloadData];
     }];

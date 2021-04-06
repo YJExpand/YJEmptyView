@@ -48,7 +48,7 @@
 - (void)randomDataSource{
     [self.dataSources removeAllObjects];
     self.isHaveData = !self.isHaveData;
-    if (self.isHaveData) {
+    if (!self.isHaveData) {
         [self.dataSources addObjectsFromArray:@[@"1",@"2",@"3"]];
     }
 }

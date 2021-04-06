@@ -29,7 +29,7 @@
     - (CGSize)emptyViewSize:(UIView<YJEmptyViewDelegate> *)emptyView superView:(UIScrollView *)superView;
  否则高度默认>= kDefaultEmptyViewHeigth
  
- 若要实现加载数据时自动显示emptyView -------需要实现yj_emptyLoadDataBegin和yj_emptyLoadDataEnd
+ 若要实现加载数据时自动显示emptyView -------需要实现yj_beginLoading和yj_endLoading
  
  ----------------------------------
  暂时这样，后面再更新
@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// 当emptyView状态变更时，会给调用
 /// @param status ---显示（Yes）-----隐藏（NO）
 /// @param superView 添加到的View（主要用来判断是TableView或CollectionView）
-- (void)updateEmptyViewShowStatus:(BOOL)status superView:(UIScrollView *)superView;
+- (void)emptyViewShowUpdateStatus:(BOOL)status superView:(UIScrollView *)superView;
 @end
 
 @protocol YJEmptyViewDataSource <NSObject>
@@ -77,10 +77,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// 刷新emptyView显示
 - (void)yj_emptyViewRefresh;
 
-/// 开始加载数据 （必须和yj_emptyLoadDataEnd配套使用）
-- (void)yj_emptyLoadDataBegin;
-/// 结束加载数据 （必须和yj_emptyLoadDataBegin配套使用）
-- (void)yj_emptyLoadDataEnd;
+/// 开始加载数据 （必须和yj_endLoading配套使用）
+- (void)yj_beginLoading;
+/// 结束加载数据 （必须和yj_beginLoading配套使用）
+- (void)yj_endLoading;
 
 /// 更新top，默认kEmptyViewTop
 - (void)yj_updateEmptyViewTop:(CGFloat)top;

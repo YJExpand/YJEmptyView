@@ -18,6 +18,7 @@
 @property (nonatomic,strong) NSMutableArray<NSLayoutConstraint *> *emptyConstraintSizeArr;
 @property (nonatomic,assign) CGFloat emptyViewTop;
 @property (nonatomic,assign) CGFloat emptyViewDefaultHeigth;
+@property (nonatomic,assign) BOOL loading;
 @end
 
 @implementation UIScrollView (EmptyView)
@@ -37,9 +38,6 @@
     return objc_getAssociatedObject(self, _cmd);
 }
 - (void)setYj_emptyView:(UIView<YJEmptyViewDelegate> *)yj_emptyView{
-    if (objc_getAssociatedObject(self, @selector(autoShowEmptyView)) == nil) {
-        self.autoShowEmptyView = YES;
-    }
     [self handleSetEmptyViewWithView:yj_emptyView];
     if ([self isKindOfClass:[UITableView class]] || [self isKindOfClass:[UICollectionView class]]) {
         [self yj_showEmptyView];
@@ -47,9 +45,17 @@
 }
 
 - (BOOL)autoShowEmptyView{
+    if (objc_getAssociatedObject(self, _cmd) == nil) {
+        return YES;
+    }
     return [objc_getAssociatedObject(self, _cmd) boolValue];
 }
 - (void)setAutoShowEmptyView:(BOOL)autoShowEmptyView{
+    if (autoShowEmptyView == YES) { //自动显示emptyView
+        [self yj_showEmptyView];
+    }else{  // 主动隐藏
+        self.yj_emptyView.hidden = YES;
+    }
     objc_setAssociatedObject(self, @selector(autoShowEmptyView), @(autoShowEmptyView), OBJC_ASSOCIATION_ASSIGN);
 }
 
@@ -95,18 +101,25 @@
     objc_setAssociatedObject(self, @selector(emptyViewDefaultHeigth), @(emptyViewDefaultHeigth), OBJC_ASSOCIATION_ASSIGN);
 }
 
+- (BOOL)loading{
+    return [objc_getAssociatedObject(self, _cmd) boolValue];
+}
+- (void)setLoading:(BOOL)loading{
+    objc_setAssociatedObject(self, @selector(loading), @(loading), OBJC_ASSOCIATION_ASSIGN);
+}
+
 #pragma mark- public
 - (void)yj_emptyViewRefresh{
     [self yj_showEmptyView];
 }
 
-- (void)yj_emptyLoadDataBegin{
-    self.autoShowEmptyView = NO;
+- (void)yj_beginLoading{
+    self.loading = YES;
     self.yj_emptyView.hidden = YES;
 }
 
-- (void)yj_emptyLoadDataEnd{
-    self.autoShowEmptyView = YES;
+- (void)yj_endLoading{
+    self.loading = NO;
     [self yj_showEmptyView];
 }
 
@@ -128,7 +141,8 @@
 }
 - (void)yj_showEmptyView{
     
-    if (self.autoShowEmptyView == NO) return;
+    if (self.autoShowEmptyView == NO) return;  // 关闭自动显示emptyView
+    if (self.loading == YES) return; // 正在加载数据
     
     if ([self.yj_emptyViewDataSource respondsToSelector:@selector(emptyViewFromSuperView:)]) {  // 优先使用代理
         [self handleSetEmptyViewWithView:[self.yj_emptyViewDataSource emptyViewFromSuperView:self]];
@@ -141,8 +155,8 @@
     BOOL total = [self totalDataCount];
     self.yj_emptyView.hidden = total;
     [self bringSubviewToFront:self.yj_emptyView];
-    if ([self.yj_emptyView respondsToSelector:@selector(updateEmptyViewShowStatus:superView:)]) {
-        [self.yj_emptyView updateEmptyViewShowStatus:!total superView:self];
+    if ([self.yj_emptyView respondsToSelector:@selector(emptyViewShowUpdateStatus:superView:)]) {
+        [self.yj_emptyView emptyViewShowUpdateStatus:!total superView:self];
     }
     
     

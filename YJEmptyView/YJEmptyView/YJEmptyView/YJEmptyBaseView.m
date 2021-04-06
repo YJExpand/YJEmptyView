@@ -24,17 +24,29 @@
 
 @implementation YJEmptyBaseView
 
-+ (instancetype)yj_createWithImageName:(NSString *)imageName titleText:(NSString *)titleText{
-    YJEmptyBaseView *view = [[self alloc] initWithImage:[UIImage imageNamed:imageName] titleText:titleText];
++ (instancetype)yj_createWithImageName:(NSString *)imageName
+                             titleText:(NSString *)titleText{
+    YJEmptyBaseView *view = [[self alloc] initWithImage:[UIImage imageNamed:imageName]
+                                              titleText:titleText];
     return view;
 }
 
-+ (instancetype)yj_createWithImageName:(NSString *)imageName titleText:(NSString *)titleText btnNormalText:(NSString *)btnNormalText buttonClickBlock:(emptyBtnClickBlock)block{
-    YJEmptyBaseView *view = [[self alloc] initWithImage:[UIImage imageNamed:imageName] titleText:titleText btnNormalText:btnNormalText buttonClickBlock:block];
++ (instancetype)yj_createWithImageName:(NSString *)imageName
+                             titleText:(NSString *)titleText
+                         btnNormalText:(NSString *)btnNormalText
+                      buttonClickBlock:(emptyBtnClickBlock)block{
+    
+    YJEmptyBaseView *view = [[self alloc] initWithImage:[UIImage imageNamed:imageName]
+                                              titleText:titleText
+                                          btnNormalText:btnNormalText
+                                       buttonClickBlock:block];
     return view;
 }
 
-- (instancetype)initWithImage:(UIImage *)image titleText:(NSString *)titleText btnNormalText:(NSString *)btnNormalText buttonClickBlock:(emptyBtnClickBlock)block{
+- (instancetype)initWithImage:(UIImage *)image
+                    titleText:(NSString *)titleText
+                btnNormalText:(NSString *)btnNormalText
+             buttonClickBlock:(emptyBtnClickBlock)block{
     self = [self initWithImage:image titleText:titleText];
     if (self) {
         self.buttonClickBlock = block;
@@ -64,7 +76,7 @@
 
 - (void)yj_setupSubviews{
     if (!self.yjSuperView) return;
-    [self resetSubViewLayout];
+    [self yj_resetSubViewLayout];
     
     NSLayoutConstraint *imageViewCenterX = [NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0];
     NSLayoutConstraint *imageViewTop = [NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
@@ -84,13 +96,13 @@
         buttonBottom.priority = UILayoutPriorityDefaultHigh;
         [self.constraitArr addObjectsFromArray:@[buttonCenterX,buttonTop,buttonBottom]];
         if (!self.btnConstraitSizeArr.count) {
-            [self handleButtonSize:kDefineButtonSize];
+            [self yj_handleButtonSize:kDefineButtonSize];
         }
     }
     [self addConstraints:self.constraitArr];
 }
 
-- (void)resetSubViewLayout{
+- (void)yj_resetSubViewLayout{
     if (self.constraitArr.count) {
         [self removeConstraints:self.constraitArr];
     }
@@ -103,7 +115,7 @@
     }
 }
 #pragma mark- 外部微调参数
-- (void)handleButtonSize:(CGSize)size{
+- (void)yj_handleButtonSize:(CGSize)size{
     if (self.btnConstraitSizeArr.count) {
         [self.button removeConstraints:self.btnConstraitSizeArr];
         [self.btnConstraitSizeArr removeAllObjects];
@@ -114,12 +126,12 @@
     [self.button addConstraints:self.btnConstraitSizeArr];
 }
 
-- (void)handleDefineMargin:(CGFloat)margin{
+- (void)yj_handleDefineMargin:(CGFloat)margin{
     self.margin = margin;
     [self yj_setupSubviews];
 }
 #pragma mark- <YJEmptyViewDelegate>
-- (void)updateEmptyViewShowStatus:(BOOL)status superView:(UIScrollView *)superView{
+- (void)emptyViewShowUpdateStatus:(BOOL)status superView:(UIScrollView *)superView{
     self.yjSuperView = superView;
     [self yj_setupSubviews];
 }

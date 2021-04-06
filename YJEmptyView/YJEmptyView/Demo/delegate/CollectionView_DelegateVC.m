@@ -1,39 +1,36 @@
 //
-//  TableView_HeaderView_DelegateVC.m
+//  CollectionView_DelegateVC.m
 //  YJEmptyView
 //
 //  Created by YJExpand on 2021/3/1.
 //
 
-#import "TableView_HeaderView_DelegateVC.h"
+#import "CollectionView_DelegateVC.h"
 
-@interface TableView_HeaderView_DelegateVC ()<YJEmptyViewDataSource>
+@interface CollectionView_DelegateVC ()<YJEmptyViewDataSource>
 
 @end
 
-@implementation TableView_HeaderView_DelegateVC
+@implementation CollectionView_DelegateVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self yj_initTableView];
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 300)];
-    headerView.backgroundColor = [UIColor mq_randomColor];
-    self.tableView.tableHeaderView = headerView;
-    self.tableView.yj_emptyViewDataSource = self;
+    [self yj_initCollectionView];
+    
+    self.collectionView.yj_emptyViewDataSource = self;
     
     [self loadData];
 }
 
 - (void)loadData{
-    [self.tableView yj_emptyLoadDataBegin];
+    [self.collectionView yj_beginLoading];
     kWeakSelf;
     [self async_loadDataWithBlock:^{
-        [weakSelf.tableView yj_emptyLoadDataEnd];
+        [weakSelf.collectionView yj_endLoading];
         [weakSelf randomDataSource];
-        [weakSelf.tableView reloadData];
+        [weakSelf.collectionView reloadData];
     }];
 }
-
 #pragma mark- <YJEmptyViewDataSource>
 - (UIView<YJEmptyViewDelegate> *)emptyViewFromSuperView:(UIScrollView *)superView{
     return [YJEmptyBaseView yj_createWithImageName:@"myy_blankpages_nonet" titleText:@"没有数据啊"];;
@@ -48,7 +45,7 @@
 /// 设置emptyView和superView的间距
 /// @param emptyView -
 /// @param superView -
-//- (UIEdgeInsets)emptyViewEdgeInset:(UIView<YJEmptyViewDelegate> *)emptyView superView:(UIScrollView *)superView{
-//    return UIEdgeInsetsMake(200, 0, 0, 0);
-//}
+- (UIEdgeInsets)emptyViewEdgeInset:(UIView<YJEmptyViewDelegate> *)emptyView superView:(UIScrollView *)superView{
+    return UIEdgeInsetsMake(200, 0, 0, 0);
+}
 @end

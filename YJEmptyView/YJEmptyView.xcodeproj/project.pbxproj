@@ -24,6 +24,9 @@
 		2C880D6825ECE6C300571F9B /* TableView_HeaderView_DelegateVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C880D6725ECE6C300571F9B /* TableView_HeaderView_DelegateVC.m */; };
 		2C880D6C25ECE8C000571F9B /* CollectionView_DelegateVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C880D6B25ECE8C000571F9B /* CollectionView_DelegateVC.m */; };
 		2C880D7025ECF83C00571F9B /* DIY_EmptyViewVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C880D6F25ECF83C00571F9B /* DIY_EmptyViewVC.m */; };
+		2C88C42B261C4383005D0EEA /* DIYEmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C88C42A261C4383005D0EEA /* DIYEmptyView.m */; };
+		2C88C470261C6AFE005D0EEA /* TableView_ClickVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C88C46F261C6AFE005D0EEA /* TableView_ClickVC.m */; };
+		2C88C475261C6FA7005D0EEA /* NormalEmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C88C474261C6FA7005D0EEA /* NormalEmptyView.m */; };
 		6CC767177BD6B6E3B68E1B57 /* Pods_YJEmptyView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3B212E591EA88ECF2A3B2B6 /* Pods_YJEmptyView.framework */; };
 /* End PBXBuildFile section */
 
@@ -61,6 +64,13 @@
 		2C880D6B25ECE8C000571F9B /* CollectionView_DelegateVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CollectionView_DelegateVC.m; sourceTree = "<group>"; };
 		2C880D6E25ECF83C00571F9B /* DIY_EmptyViewVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DIY_EmptyViewVC.h; sourceTree = "<group>"; };
 		2C880D6F25ECF83C00571F9B /* DIY_EmptyViewVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DIY_EmptyViewVC.m; sourceTree = "<group>"; };
+		2C88C429261C4383005D0EEA /* DIYEmptyView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DIYEmptyView.h; sourceTree = "<group>"; };
+		2C88C42A261C4383005D0EEA /* DIYEmptyView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DIYEmptyView.m; sourceTree = "<group>"; };
+		2C88C42E261C4429005D0EEA /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		2C88C46E261C6AFE005D0EEA /* TableView_ClickVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TableView_ClickVC.h; sourceTree = "<group>"; };
+		2C88C46F261C6AFE005D0EEA /* TableView_ClickVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TableView_ClickVC.m; sourceTree = "<group>"; };
+		2C88C473261C6FA7005D0EEA /* NormalEmptyView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NormalEmptyView.h; sourceTree = "<group>"; };
+		2C88C474261C6FA7005D0EEA /* NormalEmptyView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NormalEmptyView.m; sourceTree = "<group>"; };
 		5C992212F527192782AEA092 /* Pods-YJEmptyView.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YJEmptyView.release.xcconfig"; path = "Target Support Files/Pods-YJEmptyView/Pods-YJEmptyView.release.xcconfig"; sourceTree = "<group>"; };
 		A0D8431F7FCB8CA5C0C23EF9 /* Pods-YJEmptyView.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YJEmptyView.debug.xcconfig"; path = "Target Support Files/Pods-YJEmptyView/Pods-YJEmptyView.debug.xcconfig"; sourceTree = "<group>"; };
 		B3B212E591EA88ECF2A3B2B6 /* Pods_YJEmptyView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YJEmptyView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -112,6 +122,7 @@
 				2C4C39B225E35F4C0016644A /* main.m */,
 				2C4C39D525E38F0B0016644A /* UIColor+ext.h */,
 				2C4C39D425E38F0B0016644A /* UIColor+ext.m */,
+				2C88C42E261C4429005D0EEA /* PrefixHeader.pch */,
 			);
 			path = YJEmptyView;
 			sourceTree = "<group>";
@@ -133,22 +144,60 @@
 			children = (
 				2C4C39CD25E37D180016644A /* BaseViewController.h */,
 				2C4C39CE25E37D180016644A /* BaseViewController.m */,
+				2C88C426261C431E005D0EEA /* normal */,
+				2C88C427261C4343005D0EEA /* delegate */,
+				2C88C428261C435A005D0EEA /* DIY */,
+				2C88C46D261C6ACB005D0EEA /* Click */,
+			);
+			path = Demo;
+			sourceTree = "<group>";
+		};
+		2C88C426261C431E005D0EEA /* normal */ = {
+			isa = PBXGroup;
+			children = (
 				2C4C39D825E38FA00016644A /* TableView_NormalVC.h */,
 				2C4C39D925E38FA00016644A /* TableView_NormalVC.m */,
 				2C4C39DC25E399BE0016644A /* TableView_headerViewVC.h */,
 				2C4C39DD25E399BE0016644A /* TableView_headerViewVC.m */,
 				2C4C39E025E39CB60016644A /* CollectionView_NormalVC.h */,
 				2C4C39E125E39CB60016644A /* CollectionView_NormalVC.m */,
+			);
+			path = normal;
+			sourceTree = "<group>";
+		};
+		2C88C427261C4343005D0EEA /* delegate */ = {
+			isa = PBXGroup;
+			children = (
 				2C880D6225ECE42100571F9B /* TableView_DelegateVC.h */,
 				2C880D6325ECE42100571F9B /* TableView_DelegateVC.m */,
 				2C880D6625ECE6C300571F9B /* TableView_HeaderView_DelegateVC.h */,
 				2C880D6725ECE6C300571F9B /* TableView_HeaderView_DelegateVC.m */,
 				2C880D6A25ECE8C000571F9B /* CollectionView_DelegateVC.h */,
 				2C880D6B25ECE8C000571F9B /* CollectionView_DelegateVC.m */,
+			);
+			path = delegate;
+			sourceTree = "<group>";
+		};
+		2C88C428261C435A005D0EEA /* DIY */ = {
+			isa = PBXGroup;
+			children = (
 				2C880D6E25ECF83C00571F9B /* DIY_EmptyViewVC.h */,
 				2C880D6F25ECF83C00571F9B /* DIY_EmptyViewVC.m */,
+				2C88C429261C4383005D0EEA /* DIYEmptyView.h */,
+				2C88C42A261C4383005D0EEA /* DIYEmptyView.m */,
 			);
-			path = Demo;
+			path = DIY;
+			sourceTree = "<group>";
+		};
+		2C88C46D261C6ACB005D0EEA /* Click */ = {
+			isa = PBXGroup;
+			children = (
+				2C88C46E261C6AFE005D0EEA /* TableView_ClickVC.h */,
+				2C88C46F261C6AFE005D0EEA /* TableView_ClickVC.m */,
+				2C88C473261C6FA7005D0EEA /* NormalEmptyView.h */,
+				2C88C474261C6FA7005D0EEA /* NormalEmptyView.m */,
+			);
+			path = Click;
 			sourceTree = "<group>";
 		};
 		2F911649D2B8B05A2CAEFEC7 /* Frameworks */ = {
@@ -284,6 +333,7 @@
 				2C4C39C525E361080016644A /* UIScrollView+EmptyView.m in Sources */,
 				2C4C39CF25E37D180016644A /* BaseViewController.m in Sources */,
 				2C4C39E225E39CB60016644A /* CollectionView_NormalVC.m in Sources */,
+				2C88C42B261C4383005D0EEA /* DIYEmptyView.m in Sources */,
 				2C880D6825ECE6C300571F9B /* TableView_HeaderView_DelegateVC.m in Sources */,
 				2C4C39A825E35F4B0016644A /* ViewController.m in Sources */,
 				2C880D6C25ECE8C000571F9B /* CollectionView_DelegateVC.m in Sources */,
@@ -295,6 +345,8 @@
 				2C4C39C625E361080016644A /* YJEmptyBaseView.m in Sources */,
 				2C880D7025ECF83C00571F9B /* DIY_EmptyViewVC.m in Sources */,
 				2C4C39B325E35F4C0016644A /* main.m in Sources */,
+				2C88C475261C6FA7005D0EEA /* NormalEmptyView.m in Sources */,
+				2C88C470261C6AFE005D0EEA /* TableView_ClickVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -439,6 +491,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				GCC_PREFIX_HEADER = YJEmptyView/PrefixHeader.pch;
 				INFOPLIST_FILE = YJEmptyView/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -459,6 +512,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				GCC_PREFIX_HEADER = YJEmptyView/PrefixHeader.pch;
 				INFOPLIST_FILE = YJEmptyView/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -32,6 +32,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([UITableViewCell class])];
     cell.textLabel.text = self.dataSource[indexPath.section][indexPath.row][0];
     cell.textLabel.font = [UIFont systemFontOfSize:14];
+    cell.detailTextLabel.text = self.dataSource[indexPath.section][indexPath.row][1];
     return cell;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -42,6 +43,8 @@
         return @"普通的使用EmptyView,一句代码搞定";
     }else if (section == 1){
         return @"使用代理使用EmptyView";
+    }else if (section == 2){
+        return @"使用EmptyView--带点击跳转";
     }
     return @"DIY--EmptyView";
 }
@@ -59,12 +62,13 @@
 - (NSMutableArray<NSArray *> *)dataSource{
     if (!_dataSource) {
         _dataSource = [NSMutableArray array];
-        [_dataSource addObjectsFromArray:@[@[@[@"tableView--普通（TableView_NormalVC）",@"TableView_NormalVC"],
-                                             @[@"tableView--带headerView(TableView_headerViewVC)",@"TableView_headerViewVC"],
-                                             @[@"collectionView--普通（CollectionView_NormalVC）",@"CollectionView_NormalVC"]],
-                                           @[@[@"tableView--普通（TableView_DelegateVC）",@"TableView_DelegateVC"],
-                                             @[@"tableView--带headerView(TableView_HeaderView_DelegateVC)",@"TableView_HeaderView_DelegateVC"],
-                                             @[@"collectionView--(CollectionView_DelegateVC)",@"CollectionView_DelegateVC"]],
+        [_dataSource addObjectsFromArray:@[@[@[@"tableView--普通",@"TableView_NormalVC"],
+                                             @[@"tableView--带headerView",@"TableView_headerViewVC"],
+                                             @[@"collectionView--普通",@"CollectionView_NormalVC"]],
+                                           @[@[@"tableView--普通",@"TableView_DelegateVC"],
+                                             @[@"tableView--带headerView",@"TableView_HeaderView_DelegateVC"],
+                                             @[@"collectionView",@"CollectionView_DelegateVC"]],
+                                           @[@[@"tableView--带点击跳转",@"TableView_ClickVC"]],
                                            @[@[@"tableView--DIY空白页（DIY_EmptyViewVC）",@"DIY_EmptyViewVC"]]
         ]];
     }

@@ -6,9 +6,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <Masonry/Masonry.h>
-#import "UIColor+ext.h"
-#import "YJEmptyView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
