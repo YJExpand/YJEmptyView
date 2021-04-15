@@ -9,8 +9,8 @@ A beautiful display of data blank page frame, at the same time, high expansibili
 
 #### 效果展示
     1、一般空白页  2、有点击按钮的空白页  3、识别tableView的headerView自适应  4、DIY空白页
-<img src="https://github.com/YJExpand/YJEmptyView/blob/main/YJEmptyView/YJEmptyView/ExamplePhoto/normal.png" width="40%" height="40%"><img src="https://github.com/YJExpand/YJEmptyView/blob/main/YJEmptyView/YJEmptyView/ExamplePhoto/click.png" width="40%" height="40%">
-<img src="https://github.com/YJExpand/YJEmptyView/blob/main/YJEmptyView/YJEmptyView/ExamplePhoto/headerView.png" width="40%" height="40%"><img src="https://github.com/YJExpand/YJEmptyView/blob/main/YJEmptyView/YJEmptyView/ExamplePhoto/DIY.png" width="40%" height="40%">
+<img src="https://github.com/YJExpand/YJEmptyView/blob/main/YJEmptyView/YJEmptyView/ExamplePhoto/normal.png" width="40%" height="40%">              <img src="https://github.com/YJExpand/YJEmptyView/blob/main/YJEmptyView/YJEmptyView/ExamplePhoto/click.png" width="40%" height="40%">
+<img src="https://github.com/YJExpand/YJEmptyView/blob/main/YJEmptyView/YJEmptyView/ExamplePhoto/headerView.png" width="40%" height="40%">              <img src="https://github.com/YJExpand/YJEmptyView/blob/main/YJEmptyView/YJEmptyView/ExamplePhoto/DIY.png" width="40%" height="40%">
 
 ## 一、Installation 安装
 #### CocoaPods
