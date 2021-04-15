@@ -1,6 +1,6 @@
 //
-//  YJEmptyView.h
-//  YJEmptyView
+//  YJEmptyViewHeader.h
+//  YJEmptyViewHeader
 //
 //  Created by YJExpand on 2021/1/7.
 //

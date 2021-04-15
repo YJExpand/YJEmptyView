@@ -30,6 +30,7 @@
 		2CA4DF3C2627F06300F44C9D /* DIY.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CA4DF392627F06300F44C9D /* DIY.png */; };
 		2CA4DF3D2627F06300F44C9D /* click.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CA4DF3A2627F06300F44C9D /* click.png */; };
 		2CA4DF3E2627F06300F44C9D /* normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CA4DF3B2627F06300F44C9D /* normal.png */; };
+		2CA4DF43262818AB00F44C9D /* headerView.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CA4DF42262818AB00F44C9D /* headerView.png */; };
 		6CC767177BD6B6E3B68E1B57 /* Pods_YJEmptyView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3B212E591EA88ECF2A3B2B6 /* Pods_YJEmptyView.framework */; };
 /* End PBXBuildFile section */
 
@@ -44,7 +45,7 @@
 		2C4C39AF25E35F4C0016644A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2C4C39B125E35F4C0016644A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2C4C39B225E35F4C0016644A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		2C4C39C025E361080016644A /* YJEmptyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YJEmptyView.h; sourceTree = "<group>"; };
+		2C4C39C025E361080016644A /* YJEmptyViewHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YJEmptyViewHeader.h; sourceTree = "<group>"; };
 		2C4C39C125E361080016644A /* YJEmptyBaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YJEmptyBaseView.h; sourceTree = "<group>"; };
 		2C4C39C225E361080016644A /* UIScrollView+EmptyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+EmptyView.h"; sourceTree = "<group>"; };
 		2C4C39C325E361080016644A /* UIScrollView+EmptyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+EmptyView.m"; sourceTree = "<group>"; };
@@ -77,6 +78,7 @@
 		2CA4DF392627F06300F44C9D /* DIY.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DIY.png; sourceTree = "<group>"; };
 		2CA4DF3A2627F06300F44C9D /* click.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = click.png; sourceTree = "<group>"; };
 		2CA4DF3B2627F06300F44C9D /* normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = normal.png; sourceTree = "<group>"; };
+		2CA4DF42262818AB00F44C9D /* headerView.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = headerView.png; sourceTree = "<group>"; };
 		5C992212F527192782AEA092 /* Pods-YJEmptyView.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YJEmptyView.release.xcconfig"; path = "Target Support Files/Pods-YJEmptyView/Pods-YJEmptyView.release.xcconfig"; sourceTree = "<group>"; };
 		A0D8431F7FCB8CA5C0C23EF9 /* Pods-YJEmptyView.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YJEmptyView.debug.xcconfig"; path = "Target Support Files/Pods-YJEmptyView/Pods-YJEmptyView.debug.xcconfig"; sourceTree = "<group>"; };
 		B3B212E591EA88ECF2A3B2B6 /* Pods_YJEmptyView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YJEmptyView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -137,7 +139,7 @@
 		2C4C39BF25E360870016644A /* YJEmptyView */ = {
 			isa = PBXGroup;
 			children = (
-				2C4C39C025E361080016644A /* YJEmptyView.h */,
+				2C4C39C025E361080016644A /* YJEmptyViewHeader.h */,
 				2C4C39C125E361080016644A /* YJEmptyBaseView.h */,
 				2C4C39C425E361080016644A /* YJEmptyBaseView.m */,
 				2C4C39C225E361080016644A /* UIScrollView+EmptyView.h */,
@@ -213,6 +215,7 @@
 				2CA4DF392627F06300F44C9D /* DIY.png */,
 				2CA4DF3A2627F06300F44C9D /* click.png */,
 				2CA4DF3B2627F06300F44C9D /* normal.png */,
+				2CA4DF42262818AB00F44C9D /* headerView.png */,
 			);
 			path = ExamplePhoto;
 			sourceTree = "<group>";
@@ -296,6 +299,7 @@
 				2CA4DF3C2627F06300F44C9D /* DIY.png in Resources */,
 				2CA4DF3D2627F06300F44C9D /* click.png in Resources */,
 				2C4C39B025E35F4C0016644A /* LaunchScreen.storyboard in Resources */,
+				2CA4DF43262818AB00F44C9D /* headerView.png in Resources */,
 				2C4C39AD25E35F4C0016644A /* Assets.xcassets in Resources */,
 				2C4C39AB25E35F4B0016644A /* Main.storyboard in Resources */,
 			);

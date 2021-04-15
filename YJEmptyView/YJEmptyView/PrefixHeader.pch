@@ -10,6 +10,6 @@
 
 #import <Masonry/Masonry.h>
 #import "UIColor+ext.h"
-#import "YJEmptyView.h"
+#import "YJEmptyViewHeader.h"
 
 #endif /* PrefixHeader_pch */

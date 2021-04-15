@@ -74,8 +74,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// 空白占位View来源
 @property (nonatomic,weak) id<YJEmptyViewDataSource> yj_emptyViewDataSource;
 
-/// 刷新emptyView显示
-- (void)yj_emptyViewRefresh;
+/// emptyView显示（当设置 autoShowEmptyView=No 时，手动操作）
+- (void)yj_emptyViewShow;
+/// emptyView隐藏（当设置 autoShowEmptyView=No 时，手动操作）
+- (void)yj_emptyViewHide;
 
 /// 开始加载数据 （必须和yj_endLoading配套使用）
 - (void)yj_beginLoading;

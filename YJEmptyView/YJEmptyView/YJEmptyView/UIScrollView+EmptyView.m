@@ -109,8 +109,15 @@
 }
 
 #pragma mark- public
-- (void)yj_emptyViewRefresh{
-    [self yj_showEmptyView];
+- (void)yj_emptyViewShow{
+    if (!self.yj_emptyView) return;
+    self.yj_emptyView.hidden = NO;
+    [self bringSubviewToFront:self.yj_emptyView];
+}
+
+- (void)yj_emptyViewHide{
+    if (!self.yj_emptyView) return;
+    self.yj_emptyView.hidden = YES;
 }
 
 - (void)yj_beginLoading{
@@ -190,6 +197,10 @@
 - (void)handleEmptyContaint{
     if (!self.yj_emptyView) return;
     [self resetEmptyContaint]; // 格式化约束
+    
+    if (CGRectEqualToRect(self.frame, CGRectZero)) {  // 防止约束警告，初始化frame
+        self.frame = [UIScreen mainScreen].bounds;
+    }
     
     UIEdgeInsets edge = UIEdgeInsetsMake(0, 0, 0, 0);
     if ([self.yj_emptyViewDataSource respondsToSelector:@selector(emptyViewEdgeInset:superView:)]) {

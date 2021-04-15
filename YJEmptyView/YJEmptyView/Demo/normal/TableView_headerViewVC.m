@@ -18,6 +18,12 @@
     [self yj_initTableView];
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 200)];
     headerView.backgroundColor = [UIColor mq_randomColor];
+    UILabel *headerLB = [[UILabel alloc] init];
+    headerLB.text = @"headerView";
+    [headerView addSubview:headerLB];
+    [headerLB mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.centerY.mas_equalTo(0);
+    }];
     self.tableView.tableHeaderView = headerView;
     self.tableView.yj_emptyView = [YJEmptyBaseView yj_createWithImageName:@"myy_blankpages_nonet" titleText:@"没有数据啊"];
     
