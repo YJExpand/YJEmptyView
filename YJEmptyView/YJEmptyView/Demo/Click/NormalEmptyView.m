@@ -9,6 +9,10 @@
 
 @implementation NormalEmptyView
 
++ (instancetype)createNormalEmptyView{
+    return [self yj_createWithImageName:@"myy_blankpages_nonet" titleText:@"没有数据"];
+}
+
 + (instancetype)yj_createWithImageName:(NSString *)imageName titleText:(NSString *)titleText btnNormalText:(NSString *)btnNormalText buttonClickBlock:(emptyBtnClickBlock)block{
     NormalEmptyView *emptyView = [super yj_createWithImageName:imageName titleText:titleText btnNormalText:btnNormalText buttonClickBlock:block];
     // 配置一些属性

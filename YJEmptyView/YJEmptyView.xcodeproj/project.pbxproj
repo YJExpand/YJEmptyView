@@ -27,6 +27,9 @@
 		2C88C42B261C4383005D0EEA /* DIYEmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C88C42A261C4383005D0EEA /* DIYEmptyView.m */; };
 		2C88C470261C6AFE005D0EEA /* TableView_ClickVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C88C46F261C6AFE005D0EEA /* TableView_ClickVC.m */; };
 		2C88C475261C6FA7005D0EEA /* NormalEmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C88C474261C6FA7005D0EEA /* NormalEmptyView.m */; };
+		2CA4DF3C2627F06300F44C9D /* DIY.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CA4DF392627F06300F44C9D /* DIY.png */; };
+		2CA4DF3D2627F06300F44C9D /* click.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CA4DF3A2627F06300F44C9D /* click.png */; };
+		2CA4DF3E2627F06300F44C9D /* normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CA4DF3B2627F06300F44C9D /* normal.png */; };
 		6CC767177BD6B6E3B68E1B57 /* Pods_YJEmptyView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3B212E591EA88ECF2A3B2B6 /* Pods_YJEmptyView.framework */; };
 /* End PBXBuildFile section */
 
@@ -71,6 +74,9 @@
 		2C88C46F261C6AFE005D0EEA /* TableView_ClickVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TableView_ClickVC.m; sourceTree = "<group>"; };
 		2C88C473261C6FA7005D0EEA /* NormalEmptyView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NormalEmptyView.h; sourceTree = "<group>"; };
 		2C88C474261C6FA7005D0EEA /* NormalEmptyView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NormalEmptyView.m; sourceTree = "<group>"; };
+		2CA4DF392627F06300F44C9D /* DIY.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DIY.png; sourceTree = "<group>"; };
+		2CA4DF3A2627F06300F44C9D /* click.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = click.png; sourceTree = "<group>"; };
+		2CA4DF3B2627F06300F44C9D /* normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = normal.png; sourceTree = "<group>"; };
 		5C992212F527192782AEA092 /* Pods-YJEmptyView.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YJEmptyView.release.xcconfig"; path = "Target Support Files/Pods-YJEmptyView/Pods-YJEmptyView.release.xcconfig"; sourceTree = "<group>"; };
 		A0D8431F7FCB8CA5C0C23EF9 /* Pods-YJEmptyView.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YJEmptyView.debug.xcconfig"; path = "Target Support Files/Pods-YJEmptyView/Pods-YJEmptyView.debug.xcconfig"; sourceTree = "<group>"; };
 		B3B212E591EA88ECF2A3B2B6 /* Pods_YJEmptyView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YJEmptyView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -111,6 +117,7 @@
 			children = (
 				2C4C39BF25E360870016644A /* YJEmptyView */,
 				2C4C39CB25E363260016644A /* Demo */,
+				2CA4DF382627F06300F44C9D /* ExamplePhoto */,
 				2C4C39A025E35F4B0016644A /* AppDelegate.h */,
 				2C4C39A125E35F4B0016644A /* AppDelegate.m */,
 				2C4C39A625E35F4B0016644A /* ViewController.h */,
@@ -200,6 +207,16 @@
 			path = Click;
 			sourceTree = "<group>";
 		};
+		2CA4DF382627F06300F44C9D /* ExamplePhoto */ = {
+			isa = PBXGroup;
+			children = (
+				2CA4DF392627F06300F44C9D /* DIY.png */,
+				2CA4DF3A2627F06300F44C9D /* click.png */,
+				2CA4DF3B2627F06300F44C9D /* normal.png */,
+			);
+			path = ExamplePhoto;
+			sourceTree = "<group>";
+		};
 		2F911649D2B8B05A2CAEFEC7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -275,6 +292,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2CA4DF3E2627F06300F44C9D /* normal.png in Resources */,
+				2CA4DF3C2627F06300F44C9D /* DIY.png in Resources */,
+				2CA4DF3D2627F06300F44C9D /* click.png in Resources */,
 				2C4C39B025E35F4C0016644A /* LaunchScreen.storyboard in Resources */,
 				2C4C39AD25E35F4C0016644A /* Assets.xcassets in Resources */,
 				2C4C39AB25E35F4B0016644A /* Main.storyboard in Resources */,

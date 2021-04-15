@@ -69,7 +69,7 @@
                                              @[@"tableView--带headerView",@"TableView_HeaderView_DelegateVC"],
                                              @[@"collectionView",@"CollectionView_DelegateVC"]],
                                            @[@[@"tableView--带点击跳转",@"TableView_ClickVC"]],
-                                           @[@[@"tableView--DIY空白页（DIY_EmptyViewVC）",@"DIY_EmptyViewVC"]]
+                                           @[@[@"tableView--DIY空白页",@"DIY_EmptyViewVC"]]
         ]];
     }
     return _dataSource;
