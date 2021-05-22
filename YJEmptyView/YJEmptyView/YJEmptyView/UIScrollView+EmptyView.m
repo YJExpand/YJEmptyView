@@ -148,24 +148,24 @@
 }
 - (void)yj_showEmptyView{
     
-    if (self.autoShowEmptyView == NO) return;  // 关闭自动显示emptyView
-    if (self.loading == YES) return; // 正在加载数据
-    
     if ([self.yj_emptyViewDataSource respondsToSelector:@selector(emptyViewFromSuperView:)]) {  // 优先使用代理
         [self handleSetEmptyViewWithView:[self.yj_emptyViewDataSource emptyViewFromSuperView:self]];
     }
     
     if (!self.yj_emptyView) return;
-    
     [self handleEmptyContaint];
+    if ([self.yj_emptyView respondsToSelector:@selector(emptyViewShowUpdateStatus:superView:)]) {
+        [self.yj_emptyView emptyViewShowUpdateStatus:self.yj_emptyView.hidden superView:self];
+    }
     
+    if (self.autoShowEmptyView == NO) return;  // 关闭自动显示emptyView
+    if (self.loading == YES) return; // 正在加载数据
     BOOL total = [self totalDataCount];
     self.yj_emptyView.hidden = total;
     [self bringSubviewToFront:self.yj_emptyView];
     if ([self.yj_emptyView respondsToSelector:@selector(emptyViewShowUpdateStatus:superView:)]) {
         [self.yj_emptyView emptyViewShowUpdateStatus:!total superView:self];
     }
-    
     
 }
 - (NSInteger)totalDataCount{

@@ -56,3 +56,4 @@ self.tableView.yj_emptyView = [[DIYEmptyView alloc] init];
 ```
 ## 三、 Release Notes 最近更新 
 1.2.0 发布正式版本
+1.2.1 修复EmptyView 自适应布局的问题
