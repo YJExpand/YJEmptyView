@@ -217,14 +217,12 @@
     }else{
         top = [NSLayoutConstraint constraintWithItem:self.yj_emptyView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:self.emptyViewTop+edge.top];
     }
-    NSLayoutConstraint *centerX = [NSLayoutConstraint constraintWithItem:self.yj_emptyView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0];
-    NSLayoutConstraint *width = [NSLayoutConstraint constraintWithItem:self.yj_emptyView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeWidth multiplier:1 constant:-(fabs(edge.left)+fabs(edge.right))];
-    [self.emptyConstraintArr addObjectsFromArray:@[top,centerX,width]];
-
+    NSLayoutConstraint *centerX = [NSLayoutConstraint constraintWithItem:self.yj_emptyView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:(fabs(edge.left)-fabs(edge.right))];
+    [self.emptyConstraintArr addObjectsFromArray:@[top,centerX]];
+    
     NSLayoutConstraint *newWidth;
     NSLayoutConstraint *newHeight;
     if ([self.yj_emptyViewDataSource respondsToSelector:@selector(emptyViewSize:superView:)]) {
-        [self.emptyConstraintArr removeObject:width];
         CGSize viewSize = [self.yj_emptyViewDataSource emptyViewSize:self.yj_emptyView superView:self];
         newWidth = [NSLayoutConstraint constraintWithItem:self.yj_emptyView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:viewSize.width];
         newHeight = [NSLayoutConstraint constraintWithItem:self.yj_emptyView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:viewSize.height];
