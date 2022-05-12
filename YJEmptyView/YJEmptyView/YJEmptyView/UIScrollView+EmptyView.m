@@ -14,14 +14,17 @@
 #define kDefaultEmptyViewHeigth 50.f
 
 @interface UIScrollView()
-@property (nonatomic,strong) NSMutableArray<NSLayoutConstraint *> *emptyConstraintArr;
-@property (nonatomic,strong) NSMutableArray<NSLayoutConstraint *> *emptyConstraintSizeArr;
+/// 空白占位View的top 距离
 @property (nonatomic,assign) CGFloat emptyViewTop;
-@property (nonatomic,assign) CGFloat emptyViewDefaultHeigth;
+/// 是否加载中
 @property (nonatomic,assign) BOOL loading;
 @end
 
 @implementation UIScrollView (EmptyView)
+
+/// 交换方法
+/// @param method1 方法1
+/// @param method2 方法2
 + (void)exchangeInstanceMethod1:(SEL)method1 method2:(SEL)method2
 {
     Method originalMethod = class_getInstanceMethod(self, method1);
@@ -34,131 +37,10 @@
     }
 }
 
-- (UIView<YJEmptyViewDelegate> *)yj_emptyView{
-    return objc_getAssociatedObject(self, _cmd);
-}
-- (void)setYj_emptyView:(UIView<YJEmptyViewDelegate> *)yj_emptyView{
-    [self handleSetEmptyViewWithView:yj_emptyView];
-    if ([self isKindOfClass:[UITableView class]] || [self isKindOfClass:[UICollectionView class]]) {
-        [self yj_showEmptyView];
-    }
-}
+#pragma mark- public【公共方法】
 
-- (BOOL)autoShowEmptyView{
-    if (objc_getAssociatedObject(self, _cmd) == nil) {
-        return YES;
-    }
-    return [objc_getAssociatedObject(self, _cmd) boolValue];
-}
-- (void)setAutoShowEmptyView:(BOOL)autoShowEmptyView{
-    if (autoShowEmptyView == YES) { //自动显示emptyView
-        [self yj_showEmptyView];
-    }else{  // 主动隐藏
-        self.yj_emptyView.hidden = YES;
-    }
-    objc_setAssociatedObject(self, @selector(autoShowEmptyView), @(autoShowEmptyView), OBJC_ASSOCIATION_ASSIGN);
-}
-
-- (id<YJEmptyViewDataSource>)yj_emptyViewDataSource{
-    return objc_getAssociatedObject(self, _cmd);
-}
-- (void)setYj_emptyViewDataSource:(id<YJEmptyViewDataSource>)yj_emptyViewDataSource{
-    objc_setAssociatedObject(self, @selector(yj_emptyViewDataSource), yj_emptyViewDataSource, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-- (NSMutableArray<NSLayoutConstraint *> *)emptyConstraintArr{
-    return objc_getAssociatedObject(self, _cmd);
-}
-- (void)setEmptyConstraintArr:(NSMutableArray<NSLayoutConstraint *> *)emptyConstraintArr{
-    objc_setAssociatedObject(self, @selector(emptyConstraintArr), emptyConstraintArr, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-- (NSMutableArray<NSLayoutConstraint *> *)emptyConstraintSizeArr{
-    return objc_getAssociatedObject(self, _cmd);
-}
-- (void)setEmptyConstraintSizeArr:(NSMutableArray<NSLayoutConstraint *> *)emptyConstraintSizeArr{
-    objc_setAssociatedObject(self, @selector(emptyConstraintSizeArr), emptyConstraintSizeArr, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-- (CGFloat)emptyViewTop{
-    CGFloat emptyTop = kEmptyViewTop;
-    if (objc_getAssociatedObject(self, _cmd)) {  // 说明设过值
-        emptyTop = [objc_getAssociatedObject(self, _cmd) floatValue];
-    }
-    return emptyTop;
-}
-- (void)setEmptyViewTop:(CGFloat)emptyViewTop{
-    objc_setAssociatedObject(self, @selector(emptyViewTop), @(emptyViewTop), OBJC_ASSOCIATION_ASSIGN);
-}
-
-- (CGFloat)emptyViewDefaultHeigth{
-    CGFloat emptyHeigth = kDefaultEmptyViewHeigth;
-    if (objc_getAssociatedObject(self, _cmd)) {  // 说明设过值
-        emptyHeigth = [objc_getAssociatedObject(self, _cmd) floatValue];
-    }
-    return emptyHeigth;
-}
-- (void)setEmptyViewDefaultHeigth:(CGFloat)emptyViewDefaultHeigth{
-    objc_setAssociatedObject(self, @selector(emptyViewDefaultHeigth), @(emptyViewDefaultHeigth), OBJC_ASSOCIATION_ASSIGN);
-}
-
-- (BOOL)loading{
-    return [objc_getAssociatedObject(self, _cmd) boolValue];
-}
-- (void)setLoading:(BOOL)loading{
-    objc_setAssociatedObject(self, @selector(loading), @(loading), OBJC_ASSOCIATION_ASSIGN);
-}
-
-#pragma mark- public
+/// emptyView显示（当设置 autoShow=No 时，手动操作）
 - (void)yj_emptyViewShow{
-    if (!self.yj_emptyView) return;
-    self.yj_emptyView.hidden = NO;
-    [self bringSubviewToFront:self.yj_emptyView];
-}
-
-- (void)yj_emptyViewHide{
-    if (!self.yj_emptyView) return;
-    self.yj_emptyView.hidden = YES;
-}
-
-- (void)yj_beginLoading{
-    self.loading = YES;
-    self.yj_emptyView.hidden = YES;
-}
-
-- (void)yj_endLoading{
-    self.loading = NO;
-    [self yj_showEmptyView];
-}
-
-- (void)yj_updateEmptyViewTop:(CGFloat)top{
-    self.emptyViewTop = top;
-    [self handleEmptyContaint];
-}
-
-- (void)yj_updateEmptyViewDefaultHeigth:(CGFloat)heigth{
-    self.emptyViewDefaultHeigth = heigth;
-    [self handleEmptyContaint];
-}
-
-#pragma mark- private
-- (void)removeEmptyView{
-    if (self.yj_emptyView) {
-        [self.yj_emptyView removeFromSuperview];
-    }
-}
-- (void)yj_showEmptyView{
-    
-    if ([self.yj_emptyViewDataSource respondsToSelector:@selector(emptyViewFromSuperView:)]) {  // 优先使用代理
-        [self handleSetEmptyViewWithView:[self.yj_emptyViewDataSource emptyViewFromSuperView:self]];
-    }
-    
-    if (!self.yj_emptyView) return;
-    [self handleEmptyContaint];
-    if ([self.yj_emptyView respondsToSelector:@selector(emptyViewShowUpdateStatus:superView:)]) {
-        [self.yj_emptyView emptyViewShowUpdateStatus:self.yj_emptyView.hidden superView:self];
-    }
-    
-    if (self.autoShowEmptyView == NO) return;  // 关闭自动显示emptyView
     if (self.loading == YES) return; // 正在加载数据
     BOOL total = [self totalDataCount];
     self.yj_emptyView.hidden = total;
@@ -166,8 +48,62 @@
     if ([self.yj_emptyView respondsToSelector:@selector(emptyViewShowUpdateStatus:superView:)]) {
         [self.yj_emptyView emptyViewShowUpdateStatus:!total superView:self];
     }
-    
 }
+
+/// emptyView隐藏（当设置 autoShow=No 时，手动操作）
+- (void)yj_emptyViewHide{
+    if (!self.yj_emptyView) return;
+    self.yj_emptyView.hidden = YES;
+}
+
+/// 开始加载数据 （必须和yj_endLoading配套使用）
+- (void)yj_beginLoading{
+    self.loading = YES;
+    self.yj_emptyView.hidden = YES;
+}
+
+/// 结束加载数据 （必须和yj_beginLoading配套使用）
+- (void)yj_endLoading{
+    self.loading = NO;
+    [self autoShow];
+}
+
+/// 更新top，默认kEmptyViewTop
+- (void)yj_updateEmptyViewTop:(CGFloat)top{
+    self.emptyViewTop = top;
+}
+
+#pragma mark- private 【私有方法】
+/// 移除emptyView
+- (void)removeEmptyView{
+    if (self.yj_emptyView) {
+        [self.yj_emptyView removeFromSuperview];
+    }
+}
+/// 添加emptyView
+- (void)addEmptyView{
+    
+    if ([self.yj_emptyViewDataSource respondsToSelector:@selector(emptyViewFromSuperView:)]) {  // 优先使用代理
+        [self handleSetEmptyViewWithView:[self.yj_emptyViewDataSource emptyViewFromSuperView:self]];
+    }
+    
+    if (!self.yj_emptyView) return;
+    if ([self.yj_emptyView respondsToSelector:@selector(emptyViewShowUpdateStatus:superView:)]) {
+        [self.yj_emptyView emptyViewShowUpdateStatus:self.yj_emptyView.hidden superView:self];
+    }
+    
+    // 自动显示占位空白View
+    [self autoShowEmptyView];
+}
+
+/// 自动显示
+- (void)autoShowEmptyView{
+    if (self.autoShow == NO) return;  // 关闭自动显示emptyView
+    // 显示
+    [self yj_emptyViewShow];
+}
+
+/// 获取cell的个数
 - (NSInteger)totalDataCount{
     NSInteger totalCount = 0;
     if ([self isKindOfClass:[UITableView class]]) {
@@ -184,71 +120,73 @@
     return totalCount;
 }
 
+/// 对EmptyView 赋值
 - (void)handleSetEmptyViewWithView:(UIView<YJEmptyViewDelegate> *)view{
     NSAssert((view && [view conformsToProtocol:@protocol(YJEmptyViewDelegate)]), @"该view未遵循<YJEmptyViewDelegate>");
     [self removeEmptyView];
     if (view != self.yj_emptyView) {
-        view.translatesAutoresizingMaskIntoConstraints = NO;
         objc_setAssociatedObject(self, @selector(yj_emptyView), view, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         [self addSubview:view];
         view.hidden = YES;
     }
 }
-- (void)handleEmptyContaint{
-    if (!self.yj_emptyView) return;
-    [self resetEmptyContaint]; // 格式化约束
-    
-    if (CGRectEqualToRect(self.frame, CGRectZero)) {  // 防止约束警告，初始化frame
-        self.frame = [UIScreen mainScreen].bounds;
-    }
-    
-    UIEdgeInsets edge = UIEdgeInsetsMake(0, 0, 0, 0);
-    if ([self.yj_emptyViewDataSource respondsToSelector:@selector(emptyViewEdgeInset:superView:)]) {
-        edge = [self.yj_emptyViewDataSource emptyViewEdgeInset:self.yj_emptyView superView:self];
-    }
-    NSLayoutConstraint *top;
-    if ([self isKindOfClass:[UITableView class]]) {
-        UITableView *tableView = (UITableView *)self;
-        if (tableView.tableHeaderView) {
-            top = [NSLayoutConstraint constraintWithItem:self.yj_emptyView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:tableView.tableHeaderView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:self.emptyViewTop+edge.top];
-        }else{
-            top = [NSLayoutConstraint constraintWithItem:self.yj_emptyView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:self.emptyViewTop+edge.top];
-        }
-    }else{
-        top = [NSLayoutConstraint constraintWithItem:self.yj_emptyView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:self.emptyViewTop+edge.top];
-    }
-    NSLayoutConstraint *centerX = [NSLayoutConstraint constraintWithItem:self.yj_emptyView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:(fabs(edge.left)-fabs(edge.right))];
-    [self.emptyConstraintArr addObjectsFromArray:@[top,centerX]];
-    
-    NSLayoutConstraint *newWidth;
-    NSLayoutConstraint *newHeight;
-    if ([self.yj_emptyViewDataSource respondsToSelector:@selector(emptyViewSize:superView:)]) {
-        CGSize viewSize = [self.yj_emptyViewDataSource emptyViewSize:self.yj_emptyView superView:self];
-        newWidth = [NSLayoutConstraint constraintWithItem:self.yj_emptyView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:viewSize.width];
-        newHeight = [NSLayoutConstraint constraintWithItem:self.yj_emptyView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:viewSize.height];
-        [self.emptyConstraintSizeArr addObjectsFromArray:@[newWidth,newHeight]];
-    }else{
-        newHeight = [NSLayoutConstraint constraintWithItem:self.yj_emptyView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:self.emptyViewDefaultHeigth];
-        [self.emptyConstraintSizeArr addObjectsFromArray:@[newHeight]];
-    }
-    [self.yj_emptyView addConstraints:self.emptyConstraintSizeArr];
-    [self addConstraints:self.emptyConstraintArr];
 
+#pragma mark- getting && setting
+/// 空白页占位View
+- (UIView<YJEmptyViewDelegate> *)yj_emptyView{
+    return objc_getAssociatedObject(self, _cmd);
+}
+- (void)setYj_emptyView:(UIView<YJEmptyViewDelegate> *)yj_emptyView{
+    [self handleSetEmptyViewWithView:yj_emptyView];
+    if ([self isKindOfClass:[UITableView class]] || [self isKindOfClass:[UICollectionView class]]) {
+        [self addEmptyView];
+    }
 }
 
-- (void)resetEmptyContaint{
-    if (self.emptyConstraintArr.count){
-        [self removeConstraints:self.emptyConstraintArr];
-        [self.emptyConstraintArr removeAllObjects];
+/// 是否自动显示空白页  define Yes
+- (BOOL)autoShow{
+    if (objc_getAssociatedObject(self, _cmd) == nil) {
+        return YES;
     }
-    self.emptyConstraintArr = [NSMutableArray array];
-    
-    if (self.emptyConstraintSizeArr.count) {
-        [self.yj_emptyView removeConstraints:self.emptyConstraintSizeArr];
-        [self.emptyConstraintSizeArr removeAllObjects];
-    }
-    self.emptyConstraintSizeArr = [NSMutableArray array];
+    return [objc_getAssociatedObject(self, _cmd) boolValue];
 }
+- (void)setAutoShow:(BOOL)autoShow{
+    if (autoShow == YES) { //自动显示emptyView
+        [self yj_emptyViewShow];
+    }else{  // 主动隐藏
+        self.yj_emptyView.hidden = YES;
+    }
+    objc_setAssociatedObject(self, @selector(autoShow), @(autoShow), OBJC_ASSOCIATION_ASSIGN);
+}
+
+/// 空白占位View数据源
+- (id<YJEmptyViewDataSource>)yj_emptyViewDataSource{
+    return objc_getAssociatedObject(self, _cmd);
+}
+- (void)setYj_emptyViewDataSource:(id<YJEmptyViewDataSource>)yj_emptyViewDataSource{
+    objc_setAssociatedObject(self, @selector(yj_emptyViewDataSource), yj_emptyViewDataSource, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+/// 空白占位View的top 距离
+- (CGFloat)emptyViewTop{
+    CGFloat emptyTop = kEmptyViewTop;
+    if (objc_getAssociatedObject(self, _cmd)) {  // 说明设过值
+        emptyTop = [objc_getAssociatedObject(self, _cmd) floatValue];
+    }
+    return emptyTop;
+}
+- (void)setEmptyViewTop:(CGFloat)emptyViewTop{
+    objc_setAssociatedObject(self, @selector(emptyViewTop), @(emptyViewTop), OBJC_ASSOCIATION_ASSIGN);
+}
+
+/// 是否加载中
+- (BOOL)loading{
+    return [objc_getAssociatedObject(self, _cmd) boolValue];
+}
+- (void)setLoading:(BOOL)loading{
+    objc_setAssociatedObject(self, @selector(loading), @(loading), OBJC_ASSOCIATION_ASSIGN);
+}
+
 @end
 
 
@@ -272,39 +210,40 @@
 }
 - (void)yj_reloadData{
     [self yj_reloadData];
-    [self yj_showEmptyView];
+    
+    [self autoShowEmptyView];
 }
 ///section
 - (void)yj_insertSections:(NSIndexSet *)sections withRowAnimation:(UITableViewRowAnimation)animation{
     [self yj_insertSections:sections withRowAnimation:animation];
-    [self yj_showEmptyView];
+    [self autoShowEmptyView];
 }
 - (void)yj_deleteSections:(NSIndexSet *)sections withRowAnimation:(UITableViewRowAnimation)animation{
     [self yj_deleteSections:sections withRowAnimation:animation];
-    [self yj_showEmptyView];
+    [self autoShowEmptyView];
 }
 - (void)yj_reloadSections:(NSIndexSet *)sections withRowAnimation:(UITableViewRowAnimation)animation{
     [self yj_reloadSections:sections withRowAnimation:animation];
-    [self yj_showEmptyView];
+    [self autoShowEmptyView];
 }
 
 ///row
 - (void)yj_insertRowsAtIndexPaths:(NSArray<NSIndexPath *> *)indexPaths withRowAnimation:(UITableViewRowAnimation)animation{
     [self yj_insertRowsAtIndexPaths:indexPaths withRowAnimation:animation];
-    [self yj_showEmptyView];
+    [self autoShowEmptyView];
 }
 - (void)yj_deleteRowsAtIndexPaths:(NSArray<NSIndexPath *> *)indexPaths withRowAnimation:(UITableViewRowAnimation)animation{
     [self yj_deleteRowsAtIndexPaths:indexPaths withRowAnimation:animation];
-    [self yj_showEmptyView];
+    [self autoShowEmptyView];
 }
 - (void)yj_reloadRowsAtIndexPaths:(NSArray<NSIndexPath *> *)indexPaths withRowAnimation:(UITableViewRowAnimation)animation{
     [self yj_reloadRowsAtIndexPaths:indexPaths withRowAnimation:animation];
-    [self yj_showEmptyView];
+    [self autoShowEmptyView];
 }
 
 - (void)yj_setTableHeaderView:(UIView *)tableHeaderView{
     [self yj_setTableHeaderView:tableHeaderView];
-    [self handleEmptyContaint];
+    [self autoShowEmptyView];
 }
 @end
 
@@ -329,33 +268,33 @@
 }
 - (void)yj_reloadData{
     [self yj_reloadData];
-    [self yj_showEmptyView];
+    [self autoShowEmptyView];
 }
 ///section
 - (void)yj_insertSections:(NSIndexSet *)sections{
     [self yj_insertSections:sections];
-    [self yj_showEmptyView];
+    [self autoShowEmptyView];
 }
 - (void)yj_deleteSections:(NSIndexSet *)sections{
     [self yj_deleteSections:sections];
-    [self yj_showEmptyView];
+    [self autoShowEmptyView];
 }
 - (void)yj_reloadSections:(NSIndexSet *)sections{
     [self yj_reloadSections:sections];
-    [self yj_showEmptyView];
+    [self autoShowEmptyView];
 }
 
 ///item
 - (void)yj_insertItemsAtIndexPaths:(NSArray<NSIndexPath *> *)indexPaths{
     [self yj_insertItemsAtIndexPaths:indexPaths];
-    [self yj_showEmptyView];
+    [self autoShowEmptyView];
 }
 - (void)yj_deleteItemsAtIndexPaths:(NSArray<NSIndexPath *> *)indexPaths{
     [self yj_deleteItemsAtIndexPaths:indexPaths];
-    [self yj_showEmptyView];
+    [self autoShowEmptyView];
 }
 - (void)yj_reloadItemsAtIndexPaths:(NSArray<NSIndexPath *> *)indexPaths{
     [self yj_reloadItemsAtIndexPaths:indexPaths];
-    [self yj_showEmptyView];
+    [self autoShowEmptyView];
 }
 @end

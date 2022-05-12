@@ -18,7 +18,7 @@
     [self yj_initTableView];
     
     self.tableView.yj_emptyView = [[DIYEmptyView alloc] init];
-    [self.tableView yj_updateEmptyViewDefaultHeigth:90.f];
+//    [self.tableView yj_updateEmptyViewDefaultHeigth:90.f];
     [self loadData];
 }
 

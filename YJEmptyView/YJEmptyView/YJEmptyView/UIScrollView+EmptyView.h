@@ -39,6 +39,8 @@
 NS_ASSUME_NONNULL_BEGIN
 @protocol YJEmptyViewDelegate <NSObject>
 
+/// 初始化大小
+- (CGSize)emptyViewInitSize;
 @optional
 /// 当emptyView状态变更时，会给调用
 /// @param status ---显示（Yes）-----隐藏（NO）
@@ -53,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (UIView<YJEmptyViewDelegate> *)emptyViewFromSuperView:(UIScrollView *)superView;
 @optional
 
-/// 手动设置emptyView的大小
+/// 设置emptyView的大小
 /// @param emptyView -
 /// @param superView -
 - (CGSize)emptyViewSize:(UIView<YJEmptyViewDelegate> *)emptyView superView:(UIScrollView *)superView;
@@ -69,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// 空白页占位View
 @property (nonatomic,strong) UIView<YJEmptyViewDelegate> *yj_emptyView;
 /// 是否自动显示空白页  define Yes
-@property (nonatomic,assign) BOOL autoShowEmptyView;
+@property (nonatomic,assign) BOOL autoShow;
 
 /// 空白占位View来源
 @property (nonatomic,weak) id<YJEmptyViewDataSource> yj_emptyViewDataSource;
@@ -87,9 +89,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// 更新top，默认kEmptyViewTop
 - (void)yj_updateEmptyViewTop:(CGFloat)top;
 
-/// 更新EmptyView默认高度
-/// @param heigth -
-- (void)yj_updateEmptyViewDefaultHeigth:(CGFloat)heigth;
 @end
 
 NS_ASSUME_NONNULL_END
