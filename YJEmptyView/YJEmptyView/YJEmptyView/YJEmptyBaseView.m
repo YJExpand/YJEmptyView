@@ -11,26 +11,41 @@
 #define kDefineButtonSize CGSizeMake(120, 35)
 
 @interface YJEmptyBaseView()
+/// 父View
 @property (nonatomic,weak) UIScrollView *yjSuperView;
+/// 图片
 @property (nonatomic,strong) UIImageView *imageView;
-@property (nonatomic,strong) UILabel *titleLB;
+/// 标题
+@property (nonatomic,strong) UILabel *titleLabel;
+/// 按钮
 @property (nonatomic,strong) UIButton *button;
+/// 图片
 @property (nonatomic,strong) UIImage *image;
+/// 按钮点击block
 @property (nonatomic,copy) emptyBtnClickBlock buttonClickBlock;
-@property (nonatomic,strong) NSMutableArray<NSLayoutConstraint *> *btnConstraitSizeArr;
-@property (nonatomic,strong) NSMutableArray<NSLayoutConstraint *> *constraitArr; // 缓存约束
+/// 间隔
 @property (nonatomic,assign) CGFloat margin;
 @end
 
 @implementation YJEmptyBaseView
 
+/// 创建只有图片和文本的占位view
+/// @param imageName 图片名字
+/// @param titleText 文本
 + (instancetype)yj_createWithImageName:(NSString *)imageName
                              titleText:(NSString *)titleText{
     YJEmptyBaseView *view = [[self alloc] initWithImage:[UIImage imageNamed:imageName]
-                                              titleText:titleText];
+                                              titleText:titleText
+                                          btnNormalText:nil
+                                       buttonClickBlock:nil];
     return view;
 }
 
+/// 创建有图片、文本、点击按钮的占位view
+/// @param imageName 图片名字
+/// @param titleText 文本
+/// @param btnNormalText 按钮文字
+/// @param block 点击回调
 + (instancetype)yj_createWithImageName:(NSString *)imageName
                              titleText:(NSString *)titleText
                          btnNormalText:(NSString *)btnNormalText
@@ -43,28 +58,28 @@
     return view;
 }
 
+/// 初始化
+/// @param image 图片名字
+/// @param titleText 文本
+/// @param btnNormalText 按钮文字
+/// @param block 点击回调
 - (instancetype)initWithImage:(UIImage *)image
                     titleText:(NSString *)titleText
-                btnNormalText:(NSString *)btnNormalText
-             buttonClickBlock:(emptyBtnClickBlock)block{
-    self = [self initWithImage:image titleText:titleText];
-    if (self) {
-        self.buttonClickBlock = block;
-        [self.button setTitle:btnNormalText forState:UIControlStateNormal];
-        [self addSubview:self.button];
-    }
-    return self;
-}
-
-- (instancetype)initWithImage:(UIImage *)image titleText:(NSString *)titleText
-{
-    self = [super init];
+                btnNormalText:(NSString *_Nullable)btnNormalText
+             buttonClickBlock:(emptyBtnClickBlock _Nullable)block{
+    self = [self init];
     if (self) {
         self.margin = kDefineMargin;
         self.image = image;
-        self.titleLB.text = titleText;
+        self.titleLabel.text = titleText;
         [self addSubview:self.imageView];
-        [self addSubview:self.titleLB];
+        [self addSubview:self.titleLabel];
+        
+        self.buttonClickBlock = block;
+        if (btnNormalText.length) {
+            [self.button setTitle:btnNormalText forState:UIControlStateNormal];
+            [self addSubview:self.button];
+        }
     }
     return self;
 }
@@ -72,109 +87,96 @@
 - (void)layoutSubviews{
     [super layoutSubviews];
     
+    [self yj_updateFrame];
 }
 
-- (void)yj_setupSubviews{
-    if (!self.yjSuperView) return;
-    [self yj_resetSubViewLayout];
-    
-    NSLayoutConstraint *imageViewCenterX = [NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0];
-    NSLayoutConstraint *imageViewTop = [NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
-    [self addConstraints:@[imageViewCenterX,imageViewTop]];
-    
-    NSLayoutConstraint *titleLeft = [NSLayoutConstraint constraintWithItem:self.titleLB attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeading multiplier:1.0 constant:self.margin];
-    NSLayoutConstraint *titleRight = [NSLayoutConstraint constraintWithItem:self.titleLB attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-self.margin];
-    NSLayoutConstraint *titleTop = [NSLayoutConstraint constraintWithItem:self.titleLB attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.imageView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:self.margin];
-    NSLayoutConstraint *titleBottom = [NSLayoutConstraint constraintWithItem:self.titleLB attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
-    [self.constraitArr addObjectsFromArray:@[titleTop,titleLeft,titleRight,titleBottom]];
-    
-    if (_button) { // 有button,额外处理
-        [self.constraitArr removeObject:titleBottom];
-        NSLayoutConstraint *buttonCenterX = [NSLayoutConstraint constraintWithItem:self.button attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0];
-        NSLayoutConstraint *buttonTop = [NSLayoutConstraint constraintWithItem:self.button attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.titleLB attribute:NSLayoutAttributeBottom multiplier:1.0 constant:self.margin];
-        NSLayoutConstraint *buttonBottom = [NSLayoutConstraint constraintWithItem:self.button attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
-        buttonBottom.priority = UILayoutPriorityDefaultHigh;
-        [self.constraitArr addObjectsFromArray:@[buttonCenterX,buttonTop,buttonBottom]];
-        if (!self.btnConstraitSizeArr.count) {
-            [self yj_handleButtonSize:kDefineButtonSize];
-        }
-    }
-    [self addConstraints:self.constraitArr];
-}
+#pragma mark- action [点击事件]
 
-- (void)yj_resetSubViewLayout{
-    if (self.constraitArr.count) {
-        [self removeConstraints:self.constraitArr];
-    }
-    [self.constraitArr removeAllObjects];
-}
-#pragma mark- action
+/// 按钮点击
 - (void)buttonClick:(UIButton *)btn{
     if (self.buttonClickBlock) {
         self.buttonClickBlock(btn);
     }
 }
-#pragma mark- 外部微调参数
+#pragma mark- public [公共方法]
+/// 重新设置button大小-----默认CGSizeMake(120, 35)
 - (void)yj_handleButtonSize:(CGSize)size{
-    if (self.btnConstraitSizeArr.count) {
-        [self.button removeConstraints:self.btnConstraitSizeArr];
-        [self.btnConstraitSizeArr removeAllObjects];
-    }
-    NSLayoutConstraint *buttonWidth = [NSLayoutConstraint constraintWithItem:self.button attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:size.width];
-    NSLayoutConstraint *buttonHeight = [NSLayoutConstraint constraintWithItem:self.button attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:size.height];
-    [self.btnConstraitSizeArr addObjectsFromArray:@[buttonWidth,buttonHeight]];
-    [self.button addConstraints:self.btnConstraitSizeArr];
+    CGRect buttonFrame = _button.frame;
+    buttonFrame.size = size;
+    _button.frame = buttonFrame;
+    [self layoutIfNeeded];
 }
 
+/// 重新设置间距-----默认10.f
 - (void)yj_handleDefineMargin:(CGFloat)margin{
     self.margin = margin;
-    [self yj_setupSubviews];
+    [self layoutIfNeeded];
 }
+/// 更新frame
+- (void)yj_updateFrame{
+    CGSize imageSize = self.image.size;
+    CGFloat imageViewCenterX = (self.frame.size.width - imageSize.width) * 0.5;
+    _imageView.frame = CGRectMake(imageViewCenterX, 0, imageSize.width, imageSize.height);
+    
+    CGSize titleSize = [_titleLabel.text boundingRectWithSize:CGSizeMake(self.bounds.size.width, CGFLOAT_MAX) options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading) attributes:@{NSFontAttributeName:_titleLabel.font} context:nil].size;
+    _titleLabel.frame = CGRectMake(0, _imageView.frame.origin.y + imageSize.height + self.margin, self.bounds.size.width, titleSize.height);
+  
+    if (_button) {
+        CGSize buttonSize = _button.bounds.size;
+        CGFloat buttonCenterX = (self.frame.size.width - buttonSize.width) * 0.5;
+        _button.frame = CGRectMake(buttonCenterX, _titleLabel.frame.origin.y + titleSize.height + self.margin, buttonSize.width, buttonSize.height);
+    }
+}
+
 #pragma mark- <YJEmptyViewDelegate>
+
+/// 当emptyView状态变更时，会给调用
+/// @param status ---显示（Yes）-----隐藏（NO）
+/// @param superView 添加到的View（主要用来判断是TableView或CollectionView）
 - (void)emptyViewShowUpdateStatus:(BOOL)status superView:(UIScrollView *)superView{
     self.yjSuperView = superView;
-    [self yj_setupSubviews];
+    [self layoutIfNeeded];
 }
+
+/// 初始化大小
+- (CGSize)emptyViewInitSize{
+    // 默认为屏幕的宽度
+    CGRect bounds = [UIScreen mainScreen].bounds;
+    CGSize emptyViewSize = CGSizeMake(bounds.size.width, 200);
+    self.frame = CGRectMake(0, 0, emptyViewSize.width, emptyViewSize.height);
+    [self yj_updateFrame];
+    CGFloat heigth = _button ? _button.frame.origin.y + _button.bounds.size.height : _titleLabel.frame.origin.y + _titleLabel.bounds.size.height;
+    return CGSizeMake(emptyViewSize.width, heigth > 0 ? heigth : emptyViewSize.height);
+}
+
 #pragma mark- getting
+/// 图片
 - (UIImageView *)imageView{
     if (!_imageView) {
         _imageView = [[UIImageView alloc] initWithImage:self.image];
-        _imageView.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _imageView;
 }
-- (UILabel *)titleLB{
-    if (!_titleLB) {
-        _titleLB = [[UILabel alloc] init];
-        _titleLB.numberOfLines = 0;
-        _titleLB.textColor = [UIColor grayColor];
-        _titleLB.font = [UIFont systemFontOfSize:18.f];
-        _titleLB.textAlignment = NSTextAlignmentCenter;
-        _titleLB.translatesAutoresizingMaskIntoConstraints = NO;
+/// 标题
+- (UILabel *)titleLabel{
+    if (!_titleLabel) {
+        _titleLabel = [[UILabel alloc] init];
+        _titleLabel.numberOfLines = 0;
+        _titleLabel.textColor = [UIColor grayColor];
+        _titleLabel.font = [UIFont systemFontOfSize:18.f];
+        _titleLabel.textAlignment = NSTextAlignmentCenter;
     }
-    return _titleLB;
+    return _titleLabel;
 }
+/// 按钮
 - (UIButton *)button{
     if (!_button) {
         _button = [UIButton buttonWithType:UIButtonTypeCustom];
+        _button.frame = CGRectMake(0, 0, kDefineButtonSize.width, kDefineButtonSize.height);
         _button.titleLabel.font = [UIFont systemFontOfSize:15.f];
         [_button setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-        _button.translatesAutoresizingMaskIntoConstraints = NO;
         [_button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _button;
-}
-
-- (NSMutableArray<NSLayoutConstraint *> *)btnConstraitSizeArr{
-    if (!_btnConstraitSizeArr) {
-        _btnConstraitSizeArr = [NSMutableArray array];
-    }
-    return _btnConstraitSizeArr;
-}
-- (NSMutableArray<NSLayoutConstraint *> *)constraitArr{
-    if (!_constraitArr) {
-        _constraitArr = [NSMutableArray array];
-    }
-    return _constraitArr;
 }
 @end

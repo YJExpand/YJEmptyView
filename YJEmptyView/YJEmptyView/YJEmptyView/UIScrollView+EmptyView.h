@@ -55,11 +55,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (UIView<YJEmptyViewDelegate> *)emptyViewFromSuperView:(UIScrollView *)superView;
 @optional
 
-/// 设置emptyView的大小
-/// @param emptyView -
-/// @param superView -
-- (CGSize)emptyViewSize:(UIView<YJEmptyViewDelegate> *)emptyView superView:(UIScrollView *)superView;
-
 /// 设置emptyView和superView的间距
 /// @param emptyView -
 /// @param superView -
@@ -76,9 +71,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// 空白占位View来源
 @property (nonatomic,weak) id<YJEmptyViewDataSource> yj_emptyViewDataSource;
 
-/// emptyView显示（当设置 autoShowEmptyView=No 时，手动操作）
+/// emptyView显示（当设置 autoShow=No 时，手动操作）
 - (void)yj_emptyViewShow;
-/// emptyView隐藏（当设置 autoShowEmptyView=No 时，手动操作）
+/// emptyView隐藏（当设置 autoShow=No 时，手动操作）
 - (void)yj_emptyViewHide;
 
 /// 开始加载数据 （必须和yj_endLoading配套使用）

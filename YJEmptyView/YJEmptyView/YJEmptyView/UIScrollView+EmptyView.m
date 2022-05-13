@@ -42,17 +42,45 @@
 /// emptyView显示（当设置 autoShow=No 时，手动操作）
 - (void)yj_emptyViewShow{
     if (self.loading == YES) return; // 正在加载数据
+    // 优先使用代理获取的emptyView布局
+    if ([self.yj_emptyViewDataSource respondsToSelector:@selector(emptyViewFromSuperView:)]) {
+        self.yj_emptyView = [self.yj_emptyViewDataSource emptyViewFromSuperView:self];
+    }
     BOOL total = [self totalDataCount];
     self.yj_emptyView.hidden = total;
     [self bringSubviewToFront:self.yj_emptyView];
     if ([self.yj_emptyView respondsToSelector:@selector(emptyViewShowUpdateStatus:superView:)]) {
         [self.yj_emptyView emptyViewShowUpdateStatus:!total superView:self];
     }
+    
+    // 设置emptyView 的frame
+    CGSize emptyViewSize = CGSizeMake(200, 200);
+    if ([self.yj_emptyView respondsToSelector:@selector(emptyViewInitSize)]) {
+        emptyViewSize = [self.yj_emptyView emptyViewInitSize];
+    }
+    
+    CGFloat x = (self.bounds.size.width - emptyViewSize.width) / 2.0;
+    CGFloat y = self.emptyViewTop;
+    if ([self.yj_emptyViewDataSource respondsToSelector:@selector(emptyViewEdgeInset:superView:)]) {
+        UIEdgeInsets edge = [self.yj_emptyViewDataSource emptyViewEdgeInset:self.yj_emptyView superView:self];
+        emptyViewSize.width -= edge.left + edge.right;
+        x = (self.bounds.size.width - emptyViewSize.width) / 2.0;
+        y += edge.top;
+    }
+    
+    
+    
+    if ([self isKindOfClass:[UITableView class]]) {
+        CGRect tableViewHeaderFrame = ((UITableView *)self).tableHeaderView.frame;
+        y += tableViewHeaderFrame.origin.y + tableViewHeaderFrame.size.height;
+    }
+    self.yj_emptyView.frame = CGRectMake(x, y, emptyViewSize.width, emptyViewSize.height);
 }
 
 /// emptyView隐藏（当设置 autoShow=No 时，手动操作）
 - (void)yj_emptyViewHide{
     if (!self.yj_emptyView) return;
+    if (!self.autoShow) return;
     self.yj_emptyView.hidden = YES;
 }
 
@@ -70,7 +98,7 @@
 
 /// 更新top，默认kEmptyViewTop
 - (void)yj_updateEmptyViewTop:(CGFloat)top{
-    self.emptyViewTop = top;
+    [self setEmptyViewTop:top];
 }
 
 #pragma mark- private 【私有方法】
@@ -91,9 +119,6 @@
     if ([self.yj_emptyView respondsToSelector:@selector(emptyViewShowUpdateStatus:superView:)]) {
         [self.yj_emptyView emptyViewShowUpdateStatus:self.yj_emptyView.hidden superView:self];
     }
-    
-    // 自动显示占位空白View
-    [self autoShowEmptyView];
 }
 
 /// 自动显示

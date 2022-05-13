@@ -18,6 +18,7 @@
     [self yj_initTableView];
     
     self.tableView.yj_emptyView = [YJEmptyBaseView yj_createWithImageName:@"myy_blankpages_nonet" titleText:@"没有数据啊"];
+    [self.tableView yj_updateEmptyViewTop:10];
     
     [self loadData];
 }

@@ -49,16 +49,16 @@ typedef void(^emptyBtnClickBlock)(UIButton *btn);
 /// 点击按钮
 @property (nonatomic,readonly,strong) UIButton *button;
 
-/// 设置布局
-- (void)yj_setupSubviews;
-/// 格式化布局（子类继承该view时，可实现该方法，重新布局，自定义约束）
-- (void)yj_resetSubViewLayout;
+#pragma mark- public [公共方法]
 
-#pragma mark- 外部微调参数
 /// 重新设置button大小-----默认CGSizeMake(120, 35)
 - (void)yj_handleButtonSize:(CGSize)size;
+
 /// 重新设置间距-----默认10.f
 - (void)yj_handleDefineMargin:(CGFloat)margin;
+
+/// 更新frame ----子类可重写改方法设置frame
+- (void)yj_updateFrame;
 @end
 
 NS_ASSUME_NONNULL_END
