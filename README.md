@@ -46,13 +46,12 @@ self.tableView.yj_emptyViewDataSource = self;
 -----
 各种操作（UI、action...）
 -----
+#pragma mark - <YJEmptyViewDelegate>
+/// 初始化EmptyView大小
+- (CGSize)emptyViewInitSize{
+    return CGSizeMake(300, 60);
+}
 @end
-⚠️⚠️⚠️：处理emptyView的高度
-方案一、可使用自动撑开进行布局  
-方案二、self.tableView.yj_emptyViewDataSource = self;
-        实现<YJEmptyViewDataSource>的协议方法，返回size
-        - (CGSize)emptyViewSize:(UIView<YJEmptyViewDelegate> *)emptyView superView:(UIScrollView *)superView;
-self.tableView.yj_emptyView = [[DIYEmptyView alloc] init];
 ```
 ## 三、 Release Notes 最近更新 
 1.2.0 发布正式版本
@@ -60,3 +59,5 @@ self.tableView.yj_emptyView = [[DIYEmptyView alloc] init];
 1.2.1 修复EmptyView 自适应布局的问题
 
 1.2.2 修复EmptyView 部分情况下约束冲突问题
+
+1.3.0 去除autoLayout布局 简化代码

@@ -25,9 +25,6 @@
  tableView.yj_emptyViewDataSource = self;(需要实现代理emptyViewFromSuperView:方法，返回一个遵循<YJEmptyViewDelegate>的View,可自定义也可使用【YJEmptyBaseView】)
  
  注意：
- 如果自定义的View不自动撑开的话，必须要实现
-    - (CGSize)emptyViewSize:(UIView<YJEmptyViewDelegate> *)emptyView superView:(UIScrollView *)superView;
- 否则高度默认>= kDefaultEmptyViewHeigth
  
  若要实现加载数据时自动显示emptyView -------需要实现yj_beginLoading和yj_endLoading
  

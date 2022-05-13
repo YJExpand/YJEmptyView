@@ -10,8 +10,7 @@
  默认初始化①  ---图片、文字
  默认初始化②  ---图片、文字、按钮
  
- view的高度是使用autolayout自动撑开，有需要可以重写yj_setupSubviews方法
- 重写yj_setupSubviews方法，最好使用autoLayout自动撑开，否则高度默认为kDefaultEmptyViewHeigth
+ view的高度是使用Frame计算，有需要可以重写yj_updateFrame方法
  */
 #import <UIKit/UIKit.h>
 #import "UIScrollView+EmptyView.h"

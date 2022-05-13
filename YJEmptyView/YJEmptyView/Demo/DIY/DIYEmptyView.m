@@ -31,6 +31,7 @@
     return self;
 }
 
+#pragma mark - <YJEmptyViewDelegate>
 /// 初始化大小
 - (CGSize)emptyViewInitSize{
     return CGSizeMake(300, 60);
