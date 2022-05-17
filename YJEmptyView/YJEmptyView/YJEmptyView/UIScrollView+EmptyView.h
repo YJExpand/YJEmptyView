@@ -62,6 +62,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 空白页占位View
 @property (nonatomic,strong) UIView<YJEmptyViewDelegate> *yj_emptyView;
+///// 加载中占位View
+//@property (nonatomic,strong) UIView *yj_loadingView;
+
 /// 是否自动显示空白页  define Yes
 @property (nonatomic,assign) BOOL autoShow;
 

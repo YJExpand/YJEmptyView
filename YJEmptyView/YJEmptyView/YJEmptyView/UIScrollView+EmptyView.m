@@ -102,30 +102,35 @@
 }
 
 #pragma mark- private 【私有方法】
-/// 移除emptyView
-- (void)removeEmptyView{
-    if (self.yj_emptyView) {
-        [self.yj_emptyView removeFromSuperview];
-    }
-}
-/// 添加emptyView
-- (void)addEmptyView{
-    
-    if ([self.yj_emptyViewDataSource respondsToSelector:@selector(emptyViewFromSuperView:)]) {  // 优先使用代理
-        [self handleSetEmptyViewWithView:[self.yj_emptyViewDataSource emptyViewFromSuperView:self]];
-    }
-    
-    if (!self.yj_emptyView) return;
-    if ([self.yj_emptyView respondsToSelector:@selector(emptyViewShowUpdateStatus:superView:)]) {
-        [self.yj_emptyView emptyViewShowUpdateStatus:self.yj_emptyView.hidden superView:self];
-    }
-}
 
 /// 自动显示
 - (void)autoShowEmptyView{
     if (self.autoShow == NO) return;  // 关闭自动显示emptyView
     // 显示
-    [self yj_emptyViewShow];
+    if (@available(iOS 11.0, *)) {
+        __weak typeof(self) weakSelf = self;
+        if ([self isKindOfClass:[UITableView class]]) {
+            UITableView *tableView = (UITableView *)self;
+            [tableView performBatchUpdates:^{
+                
+            } completion:^(BOOL finished) {
+                [weakSelf yj_emptyViewShow];
+            }];
+        }else if ([self isKindOfClass:[UICollectionView class]]){
+            UICollectionView *collectionView = (UICollectionView *)self;
+            [collectionView performBatchUpdates:^{
+                
+            } completion:^(BOOL finished) {
+                [weakSelf yj_emptyViewShow];
+            }];
+        }else{
+            [self yj_emptyViewShow];
+        }
+        
+    } else {
+        [self yj_emptyViewShow];
+    }
+    
 }
 
 /// 获取cell的个数
@@ -148,13 +153,30 @@
 /// 对EmptyView 赋值
 - (void)handleSetEmptyViewWithView:(UIView<YJEmptyViewDelegate> *)view{
     NSAssert((view && [view conformsToProtocol:@protocol(YJEmptyViewDelegate)]), @"该view未遵循<YJEmptyViewDelegate>");
-    [self removeEmptyView];
+    
+    if ([self.yj_emptyViewDataSource respondsToSelector:@selector(emptyViewFromSuperView:)]) {  // 优先使用代理
+        view = [self.yj_emptyViewDataSource emptyViewFromSuperView:self];
+    }
     if (view != self.yj_emptyView) {
+        [self.yj_emptyView removeFromSuperview];
         objc_setAssociatedObject(self, @selector(yj_emptyView), view, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         [self addSubview:view];
         view.hidden = YES;
     }
 }
+
+///// 对loadingView 赋值
+//- (void)handleSetLoadingViewWithView:(UIView *)view{
+//    if (view == nil) {
+//        return;
+//    }
+//    if (view != self.yj_loadingView) {
+//        [self.yj_loadingView removeFromSuperview];
+//        objc_setAssociatedObject(self, @selector(yj_loadingView), view, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+//        [self addSubview:view];
+//        view.hidden = YES;
+//    }
+//}
 
 #pragma mark- getting && setting
 /// 空白页占位View
@@ -163,10 +185,16 @@
 }
 - (void)setYj_emptyView:(UIView<YJEmptyViewDelegate> *)yj_emptyView{
     [self handleSetEmptyViewWithView:yj_emptyView];
-    if ([self isKindOfClass:[UITableView class]] || [self isKindOfClass:[UICollectionView class]]) {
-        [self addEmptyView];
-    }
 }
+
+///// 加载中占位View
+//- (UIView *)yj_loadingView{
+//    return objc_getAssociatedObject(self, _cmd);
+//}
+//
+//- (void)setYj_loadingView:(UIView *)yj_loadingView{
+//    [self handleSetLoadingViewWithView:yj_loadingView];
+//}
 
 /// 是否自动显示空白页  define Yes
 - (BOOL)autoShow{
