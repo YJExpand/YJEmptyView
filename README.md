@@ -61,3 +61,5 @@ self.tableView.yj_emptyViewDataSource = self;
 1.2.2 修复EmptyView 部分情况下约束冲突问题
 
 1.3.0 去除autoLayout布局 简化代码
+
+1.3.3 添加布局容错，修复一些警告问题

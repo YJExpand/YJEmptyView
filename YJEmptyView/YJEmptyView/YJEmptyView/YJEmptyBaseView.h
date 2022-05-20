@@ -44,7 +44,7 @@ typedef void(^emptyBtnClickBlock)(UIButton *btn);
 /// 图片
 @property (nonatomic,readonly,strong) UIImageView *imageView;
 /// 文本描述
-@property (nonatomic,readonly,strong) UILabel *titleLB;
+@property (nonatomic,readonly,strong) UILabel *titleLabel;
 /// 点击按钮
 @property (nonatomic,readonly,strong) UIButton *button;
 

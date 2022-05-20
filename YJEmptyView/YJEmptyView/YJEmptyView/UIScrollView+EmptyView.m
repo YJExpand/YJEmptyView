@@ -54,12 +54,16 @@
     }
     
     // 设置emptyView 的frame
-    CGSize emptyViewSize = CGSizeMake(200, 200);
+    CGSize emptyViewSize = CGSizeMake(200, 200); // 随便给个值初始化而已，主要还是看[self.yj_emptyView emptyViewInitSize]
     if ([self.yj_emptyView respondsToSelector:@selector(emptyViewInitSize)]) {
         emptyViewSize = [self.yj_emptyView emptyViewInitSize];
     }
     
-    CGFloat x = (self.bounds.size.width - emptyViewSize.width) / 2.0;
+    CGFloat x = (self.bounds.size.width - emptyViewSize.width) * 0.5;
+    if (x < 0) {
+        // 手动加个容错，避免一下self.frame 为空的状态
+        x = ([UIScreen mainScreen].bounds.size.width - emptyViewSize.width) * 0.5;
+    }
     CGFloat y = self.emptyViewTop;
     if ([self.yj_emptyViewDataSource respondsToSelector:@selector(emptyViewEdgeInset:superView:)]) {
         UIEdgeInsets edge = [self.yj_emptyViewDataSource emptyViewEdgeInset:self.yj_emptyView superView:self];
@@ -106,31 +110,7 @@
 /// 自动显示
 - (void)autoShowEmptyView{
     if (self.autoShow == NO) return;  // 关闭自动显示emptyView
-    // 显示
-    if (@available(iOS 11.0, *)) {
-        __weak typeof(self) weakSelf = self;
-        if ([self isKindOfClass:[UITableView class]]) {
-            UITableView *tableView = (UITableView *)self;
-            [tableView performBatchUpdates:^{
-                
-            } completion:^(BOOL finished) {
-                [weakSelf yj_emptyViewShow];
-            }];
-        }else if ([self isKindOfClass:[UICollectionView class]]){
-            UICollectionView *collectionView = (UICollectionView *)self;
-            [collectionView performBatchUpdates:^{
-                
-            } completion:^(BOOL finished) {
-                [weakSelf yj_emptyViewShow];
-            }];
-        }else{
-            [self yj_emptyViewShow];
-        }
-        
-    } else {
-        [self yj_emptyViewShow];
-    }
-    
+    [self yj_emptyViewShow];
 }
 
 /// 获取cell的个数
@@ -264,7 +244,17 @@
 - (void)yj_reloadData{
     [self yj_reloadData];
     
-    [self autoShowEmptyView];
+    if (@available(iOS 11.0, *)) {
+        __weak typeof(self) weakSelf = self;
+        [self performBatchUpdates:^{
+            
+        } completion:^(BOOL finished) {
+            [weakSelf autoShowEmptyView];
+        }];
+    } else {
+        [self autoShowEmptyView];
+    }
+    
 }
 ///section
 - (void)yj_insertSections:(NSIndexSet *)sections withRowAnimation:(UITableViewRowAnimation)animation{
@@ -321,7 +311,16 @@
 }
 - (void)yj_reloadData{
     [self yj_reloadData];
-    [self autoShowEmptyView];
+    if (@available(iOS 11.0, *)) {
+        __weak typeof(self) weakSelf = self;
+        [self performBatchUpdates:^{
+            
+        } completion:^(BOOL finished) {
+            [weakSelf autoShowEmptyView];
+        }];
+    } else {
+        [self autoShowEmptyView];
+    }
 }
 ///section
 - (void)yj_insertSections:(NSIndexSet *)sections{
