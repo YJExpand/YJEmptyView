@@ -140,9 +140,9 @@
 
 /// 初始化大小
 - (CGSize)emptyViewInitSize{
-    // 默认为屏幕的宽度
-    CGRect bounds = [UIScreen mainScreen].bounds;
-    CGSize emptyViewSize = CGSizeMake(bounds.size.width, 200);
+    // 初始化宽度
+    CGFloat emptyViewWidth = self.yjSuperView.bounds.size.width > 0 ? self.yjSuperView.bounds.size.width : [UIScreen mainScreen].bounds.size.width;
+    CGSize emptyViewSize = CGSizeMake(emptyViewWidth, 200);
     self.frame = CGRectMake(0, 0, emptyViewSize.width, emptyViewSize.height);
     [self yj_updateFrame];
     CGFloat heigth = _button ? _button.frame.origin.y + _button.bounds.size.height : _titleLabel.frame.origin.y + _titleLabel.bounds.size.height;
