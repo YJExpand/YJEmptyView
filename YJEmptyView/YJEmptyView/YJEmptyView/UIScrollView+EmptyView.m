@@ -244,16 +244,16 @@
 - (void)yj_reloadData{
     [self yj_reloadData];
     
-    if (@available(iOS 11.0, *)) {
-        __weak typeof(self) weakSelf = self;
-        [self performBatchUpdates:^{
-            
-        } completion:^(BOOL finished) {
-            [weakSelf autoShowEmptyView];
-        }];
-    } else {
+//    if (@available(iOS 11.0, *)) {
+//        __weak typeof(self) weakSelf = self;
+//        [self performBatchUpdates:^{
+//
+//        } completion:^(BOOL finished) {
+//            [weakSelf autoShowEmptyView];
+//        }];
+//    } else {
         [self autoShowEmptyView];
-    }
+//    }
     
 }
 ///section
