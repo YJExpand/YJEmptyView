@@ -84,7 +84,6 @@
 /// emptyView隐藏（当设置 autoShow=No 时，手动操作）
 - (void)yj_emptyViewHide{
     if (!self.yj_emptyView) return;
-    if (!self.autoShow) return;
     self.yj_emptyView.hidden = YES;
 }
 
@@ -209,7 +208,7 @@
     return emptyTop;
 }
 - (void)setEmptyViewTop:(CGFloat)emptyViewTop{
-    objc_setAssociatedObject(self, @selector(emptyViewTop), @(emptyViewTop), OBJC_ASSOCIATION_ASSIGN);
+    objc_setAssociatedObject(self, @selector(emptyViewTop), @(emptyViewTop), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 /// 是否加载中
